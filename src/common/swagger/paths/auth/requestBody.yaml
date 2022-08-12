@@ -1,0 +1,12 @@
+description: 'requestBody Test'
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        password:
+          type: string

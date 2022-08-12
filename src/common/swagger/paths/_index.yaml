@@ -1,0 +1,20 @@
+# /api/auth:
+#   $ref: "./auth/auth.yaml" # 개별 파일에 정의된 OpenAPI 코드 단편 참조
+
+# /api/auth/signin:
+#   get:
+#       summary: Test
+#       operationId: operationId Test
+#       tags:
+#         - tags
+#       parameters:
+#         - name: parameter name Test
+#           in: query
+#           description: parameter description Test
+#           required: false
+#           schema:
+#               type: integer
+#               format: int32
+#       response:
+#           '200':
+#               description: A paged array of pets

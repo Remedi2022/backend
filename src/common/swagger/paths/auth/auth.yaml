@@ -1,0 +1,12 @@
+/signin:
+  get:
+    summary: summary test
+    description: description test
+    responses:
+      "200":
+        description: 200 OK Test
+      default:
+        description: default Test
+    requestBody:
+      $ref: 'requestBody.yaml'
+    
