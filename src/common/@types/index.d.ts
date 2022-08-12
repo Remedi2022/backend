@@ -8,6 +8,10 @@ declare global {
         interface User extends UserModel {}
     }
 
+    namespace NodeJS {
+        interface ProcessEnv {}
+    }
+
     interface Signature {
         [key: string]: any; // index signature
     }

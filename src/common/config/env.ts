@@ -2,7 +2,7 @@ import { config } from "dotenv";
 
 config({ path: "src/.env" });
 
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT);
 const _USERNAME = process.env._USERNAME;
 const PASSWORD = process.env.PASSWORD;
 const DATABASE = process.env.DATABASE;
