@@ -1,15 +1,15 @@
 import { FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";
 
-import { UserResponseDto } from "@dtos/UserDto";
 import { User } from "@entities/User";
 import { IAuthRepository } from "./interface/IAuthRepository";
+import { ResponseSignUpDto } from "./dtos";
 
 @Service()
 export class AuthRepository implements IAuthRepository {
-    async save(user: User): Promise<Mutation<UserResponseDto>> {
+    async save(user: User): Promise<Mutation<ResponseSignUpDto>> {
         try {
-            const result: UserResponseDto = await User.save(user);
+            const result: ResponseSignUpDto = await User.save(user);
             return {
                 status: OK,
                 success: true,

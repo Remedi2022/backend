@@ -1,7 +1,7 @@
 import passport from "passport";
 
 import local from "./localStrategy";
-import { AuthRepository, User } from "@repositories/authRepository";
+import { AuthRepository, User } from "components/Auth/authRepository";
 
 const authRepository = new AuthRepository();
 

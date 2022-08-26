@@ -10,9 +10,9 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 
-import passportConfig from "./common/passport";
-import ApiRouter from "./api/routers/index";
-import { PORT, COOKIE_SECRET } from "@config/env";
+import passportConfig from "./config/passport";
+import ApiRouter from "./routes/index";
+import { PORT, COOKIE_SECRET } from "config/env";
 
 const MAXAGE = 1 * 60 * 60 * 1000;
 const SESS_OPTION = {
@@ -20,7 +20,7 @@ const SESS_OPTION = {
     minTimeOut: 100,
     maxTimeout: 200,
 };
-const swaggerSpec = YAML.load(path.join(__dirname, "common/swagger/openapi.yaml"));
+const swaggerSpec = YAML.load(path.join(__dirname, "config/swagger/openapi.yaml"));
 const sessionStore = FileStore(session);
 const store = new sessionStore(SESS_OPTION);
 

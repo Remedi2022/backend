@@ -1,5 +1,5 @@
 import { ErrorSafety } from "./return";
-import { User as UserModel } from "@entities/User";
+import { User as UserModel } from "database/entities/User";
 
 declare global {
     interface Mutation<T> extends ErrorSafety<T> {}
@@ -9,7 +9,9 @@ declare global {
     }
 
     namespace NodeJS {
-        interface ProcessEnv {}
+        interface ProcessEnv {
+            // 환경 변수 타입 설정
+        }
     }
 
     interface Signature {

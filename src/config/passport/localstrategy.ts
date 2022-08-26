@@ -4,7 +4,7 @@ import passportLocal from "passport-local";
 import Container from "typedi";
 
 import { Unauthorized } from "@errors/errorGenerator";
-import { AuthRepository } from "@repositories/authRepository";
+import { AuthRepository } from "components/Auth/authRepository";
 
 const LocalStrategy = passportLocal.Strategy;
 const config = {

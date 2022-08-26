@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "description": "22년도 졸업 프로젝트 서버 코드 저장소",
     "scripts": {
-        "start": "nodemon -r tsconfig-paths/register --watch \"src/**/*.ts\" --exec \"ts-node\" src/bin/www.ts",
+        "start": "nodemon -r tsconfig-paths/register --watch \"src/**/*.ts\" --exec \"ts-node\" src/config/connection/server.ts",
         "build": "npx tsc",
-        "api-docs": "swagger-cli bundle ./src/common/swagger/openapi.yaml --outfile build/swagger.yaml --type yaml",
+        "api-docs": "swagger-cli bundle ./src/config/swagger/openapi.yaml --outfile build/swagger.yaml --type yaml",
         "prestart": "npm run api-docs"
     },
     "repository": {

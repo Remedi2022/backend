@@ -3,8 +3,8 @@ import { OK } from "http-status-codes";
 import passport from "passport";
 import Container from "typedi";
 
-import { UserRequestDto } from "@dtos/UserDto";
-import { AuthService } from "@services/authService";
+import { RequestSignUpDto, ResponseSignUpDto } from "./dtos";
+import { AuthService } from "./authService";
 
 export class AuthController {
     private authService: AuthService;
@@ -43,8 +43,8 @@ export class AuthController {
 
     signup = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const userDto: UserRequestDto = req.body;
-            const result = await this.authService.signup(userDto);
+            const userDto: RequestSignUpDto = req.body;
+            const result: Mutation<ResponseSignUpDto> = await this.authService.signup(userDto);
 
             if (!result.success) throw result;
 
@@ -55,7 +55,7 @@ export class AuthController {
     };
 
     signout = async (req: any, res: Response, next: NextFunction) => {
-        const result = await this.authService.signout(req);
+        const result: Mutation<undefined> = await this.authService.signout(req);
 
         if (!result.success) next(result);
         else res.status(result.status).send(result);

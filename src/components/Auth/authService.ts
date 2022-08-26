@@ -2,15 +2,15 @@ import { Request } from "express";
 import bcrypt from "bcrypt";
 import { Service } from "typedi";
 
-import { UserRequestDto, UserResponseDto } from "@dtos/UserDto";
-import { AuthRepository, User } from "@repositories/authRepository";
 import { BadRequest, Conflict } from "@errors/errorGenerator";
+import { RequestSignUpDto, ResponseSignUpDto } from "./dtos";
+import { AuthRepository, User } from "./authRepository";
 
 @Service()
 export class AuthService {
     constructor(private authRepository: AuthRepository) {}
 
-    async signup(userDto: UserRequestDto): Promise<Mutation<UserResponseDto>> {
+    async signup(userDto: RequestSignUpDto): Promise<Mutation<ResponseSignUpDto>> {
         const { email, password } = userDto;
 
         try {
@@ -47,7 +47,7 @@ export class AuthService {
         }
     }
 
-    async signout(req: Request): Promise<Mutation<null>> {
+    async signout(req: Request): Promise<Mutation<undefined>> {
         req.logout((err: any): any => {
             if (err) {
                 return {

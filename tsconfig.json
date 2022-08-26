@@ -18,15 +18,10 @@
         "emitDecoratorMetadata": true,
         "baseUrl": "src",
         "paths": {
-            "@services/*": ["services/*"],
-            "@controllers/*": ["controllers/*"],
-            "@errors/*": ["common/errors/*"],
-            "@dtos/*": ["dtos/*"],
-            "@entities/*": ["models/entities/*"],
-            "@repositories/*": ["models/repositories/*"],
-            "@middlewares/*": ["api/middlewares/*"],
-            "@config/*": ["common/config/*"],
-            "@swagger/*": ["common/swagger/*"]
+            "@errors/*": ["config/errors/*"],
+            "@entities/*": ["database/entities/*"],
+            "@swagger/*": ["config/swagger/*"],
+            "@env": ["config/env"]
         }
     },
     "include": ["src/**/*"],

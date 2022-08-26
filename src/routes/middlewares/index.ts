@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { Forbidden } from "@errors/errorGenerator";
+import { Forbidden } from "config/errors/errorGenerator";
 
 const isLoggedIn = async (req: Request, res: Response, next: NextFunction) => {
     try {

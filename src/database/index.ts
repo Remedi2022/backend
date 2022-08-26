@@ -2,7 +2,7 @@ import path from "path";
 
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
-import { DATABASE, DB_PORT, HOST, PASSWORD, _USERNAME } from "./env";
+import { DATABASE, DB_PORT, HOST, PASSWORD, _USERNAME } from "@env";
 
 const configs: Signature = {
     development: {
@@ -17,7 +17,7 @@ const configs: Signature = {
         synchronize: true,
         logging: true,
         dropSchema: false,
-        entities: [path.join("src", "models", "entities", "**", "*{.js,.ts}")],
+        entities: [path.join("src", "database", "entities", "**", "*{.js,.ts}")],
     },
 
     production: {
@@ -32,7 +32,7 @@ const configs: Signature = {
         synchronize: true,
         logging: true,
         dropSchema: false,
-        entities: [path.join("src", "models", "entities", "**", "*{.js,.ts}")],
+        entities: [path.join("src", "database", "entities", "**", "*{.js,.ts}")],
     },
 };
 
