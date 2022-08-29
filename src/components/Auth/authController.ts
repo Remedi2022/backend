@@ -22,7 +22,6 @@ export class AuthController {
                     error: err,
                 });
             }
-            console.log("로그인 전");
             req.login(user, loginError => {
                 if (loginError) {
                     next({

@@ -5,9 +5,10 @@ import { Service } from "typedi";
 import { BadRequest, Conflict } from "@errors/errorGenerator";
 import { RequestSignUpDto, ResponseSignUpDto } from "./dtos";
 import { AuthRepository, User } from "./authRepository";
+import { IAuthService } from "./interface/IAuthService";
 
 @Service()
-export class AuthService {
+export class AuthService implements IAuthService {
     constructor(private authRepository: AuthRepository) {}
 
     async signup(userDto: RequestSignUpDto): Promise<Mutation<ResponseSignUpDto>> {
