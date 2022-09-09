@@ -1,4 +1,4 @@
-import { FORBIDDEN, OK } from "http-status-codes";
+import { CREATED, FORBIDDEN } from "http-status-codes";
 import { Service } from "typedi";
 
 import { User } from "@entities/User";
@@ -11,7 +11,7 @@ export class AuthRepository implements IAuthRepository {
         try {
             const result: ResponseSignUpDto = await User.save(user);
             return {
-                status: OK,
+                status: CREATED,
                 success: true,
                 message: "회원가입 성공",
                 result,
