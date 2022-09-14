@@ -87,7 +87,10 @@ class App {
             res.status(err.status || 500);
 
             console.error(err.error);
-            res.status(err.status).json({ success: err.success, message: err.message });
+            res.status(err.status).json({
+                success: err.success,
+                message: err.message,
+            });
         });
     }
 }
