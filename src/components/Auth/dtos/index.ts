@@ -1,2 +1,2 @@
-export { RequestSignUpDto } from "./RequestSignUpDto";
-export { ResponseSignUpDto } from "./ResponseSingUpDto";
+export { RequestSignUpDto } from "./request/RequestSignUpDto";
+export { ResponseSignUpDto } from "./response/ResponseSingUpDto";

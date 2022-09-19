@@ -86,7 +86,7 @@ class App {
             res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
             res.status(err.status || 500);
 
-            console.error(err.error);
+            console.error(err);
             res.status(err.status).json({
                 success: err.success,
                 message: err.message,
