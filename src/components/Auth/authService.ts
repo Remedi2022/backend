@@ -11,8 +11,8 @@ import { IAuthService } from "./interface/IAuthService";
 export class AuthService implements IAuthService {
     constructor(private authRepository: AuthRepository) {}
 
-    async signup(responseSignUpDto: RequestSignUpDto): Promise<Mutation<ResponseSignUpDto>> {
-        const { email, password } = responseSignUpDto;
+    async signup(requestSignUpDto: RequestSignUpDto): Promise<Mutation<ResponseSignUpDto>> {
+        const { email, password } = requestSignUpDto;
 
         try {
             const exEmail = await User.findOne({ email });

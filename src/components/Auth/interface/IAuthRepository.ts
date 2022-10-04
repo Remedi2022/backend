@@ -1,4 +1,4 @@
-import { ResponseSignUpDto } from "../dtos/response/ResponseSingUpDto";
+import { ResponseSignUpDto } from "../dtos/response/ResponseSignUpDto";
 import { User } from "database/entities/User";
 
 export interface IAuthRepository {

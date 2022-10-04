@@ -23,7 +23,7 @@ class AuthRouter {
     }
 
     get() {
-        this.router.get("/logout", isLoggedIn, this.authController.signout);
+        this.router.get("/signout", isLoggedIn, this.authController.signout);
     }
 
     post() {
