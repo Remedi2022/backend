@@ -2,7 +2,7 @@ import { MD } from "@entities/MD";
 import { Service } from "typedi";
 
 @Service()
-export class MDRepository {
+export class MDRepository implements MDRepository {
     async findall(): Promise<MD[]> {
         const result: MD[] = await MD.find({
             order: {

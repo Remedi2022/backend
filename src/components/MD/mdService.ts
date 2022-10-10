@@ -1,10 +1,11 @@
 import { FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";
 import { ResponseMDListDto } from "./dtos";
+import { IMDService } from "./interface/IMDService";
 import { MD, MDRepository } from "./mdRepository";
 
 @Service()
-export class MDService {
+export class MDService implements IMDService {
     constructor(private mdRepository: MDRepository) {}
 
     async md_list(): Promise<Mutation<ResponseMDListDto[]>> {
@@ -13,14 +14,7 @@ export class MDService {
             const result: ResponseMDListDto[] = [];
 
             for (const md of md_list) {
-                const responseMDListDto: ResponseMDListDto = new ResponseMDListDto();
-
-                responseMDListDto.name = md.itemName;
-                responseMDListDto.volume = md.volume;
-                responseMDListDto.unit = md.unit;
-                responseMDListDto.price = md.price;
-                responseMDListDto.company = md.company;
-                responseMDListDto.kcd = md.kcd;
+                const responseMDListDto: ResponseMDListDto = new ResponseMDListDto(md);
 
                 result.push(responseMDListDto);
             }
