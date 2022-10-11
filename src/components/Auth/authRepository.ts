@@ -9,12 +9,14 @@ import { ResponseSignUpDto } from "./dtos";
 export class AuthRepository implements IAuthRepository {
     async save(user: User): Promise<Mutation<ResponseSignUpDto>> {
         try {
-            const result: ResponseSignUpDto = await User.save(user);
+            const result = await User.save(user);
+            const responseSignUpDto: ResponseSignUpDto = new ResponseSignUpDto(result);
+
             return {
                 status: CREATED,
                 success: true,
                 message: "회원가입 성공",
-                result,
+                result: responseSignUpDto,
             };
         } catch (err: any) {
             return {

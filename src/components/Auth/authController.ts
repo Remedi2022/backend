@@ -21,6 +21,7 @@ export class AuthController {
     signup = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const requestSignUpDto: RequestSignUpDto = new RequestSignUpDto(req.body);
+
             const errors: ValidationError[] = await validate(requestSignUpDto);
 
             if (errors.length > 0) {

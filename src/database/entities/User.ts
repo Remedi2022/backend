@@ -9,12 +9,22 @@ export class User extends BaseEntity {
 
     @Column({
         nullable: false,
+    })
+    hospital: string;
+
+    @Column({
+        nullable: false,
+    })
+    license: string;
+
+    @Column({
+        nullable: false,
         unique: true,
     })
     email: string;
 
     @Column({
-        nullable: true,
+        nullable: false,
         unique: true,
     })
     password!: string;
