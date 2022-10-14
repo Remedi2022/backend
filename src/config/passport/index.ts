@@ -1,12 +1,12 @@
 import passport from "passport";
 
 import local from "./localstrategy";
-import { AuthRepository, User } from "components/Auth/authRepository";
+import { AuthRepository, Doctor } from "components/Auth/authRepository";
 
 const authRepository = new AuthRepository();
 
 export default () => {
-    passport.serializeUser((user: User, done) => {
+    passport.serializeUser((user: Doctor, done) => {
         done(null, user.email);
     });
 

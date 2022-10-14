@@ -1,7 +1,7 @@
 import { ResponseSignUpDto } from "../dtos/response/ResponseSignUpDto";
-import { User } from "database/entities/User";
+import { Doctor } from "@entities/Doctor";
 
 export interface IAuthRepository {
-    save(user: User): Promise<Mutation<ResponseSignUpDto>>;
-    findOneByEmail(email: string): Promise<User | undefined>;
+    save(doctor: Doctor): Promise<Mutation<ResponseSignUpDto>>;
+    findOneByEmail(email: string): Promise<Doctor | undefined>;
 }

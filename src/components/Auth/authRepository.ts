@@ -1,15 +1,15 @@
 import { CREATED, FORBIDDEN } from "http-status-codes";
 import { Service } from "typedi";
 
-import { User } from "@entities/User";
+import { Doctor } from "@entities/Doctor";
 import { IAuthRepository } from "./interface/IAuthRepository";
 import { ResponseSignUpDto } from "./dtos";
 
 @Service()
 export class AuthRepository implements IAuthRepository {
-    async save(user: User): Promise<Mutation<ResponseSignUpDto>> {
+    async save(doctor: Doctor): Promise<Mutation<ResponseSignUpDto>> {
         try {
-            const result = await User.save(user);
+            const result = await Doctor.save(doctor);
             const responseSignUpDto: ResponseSignUpDto = new ResponseSignUpDto(result);
 
             return {
@@ -28,10 +28,10 @@ export class AuthRepository implements IAuthRepository {
         }
     }
 
-    async findOneByEmail(email: string): Promise<User | undefined> {
-        const result = await User.findOne({ email: email });
+    async findOneByEmail(email: string): Promise<Doctor | undefined> {
+        const result = await Doctor.findOne({ email: email });
         return result;
     }
 }
 
-export { User };
+export { Doctor };

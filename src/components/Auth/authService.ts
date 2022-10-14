@@ -4,7 +4,7 @@ import { Service } from "typedi";
 
 import { BadRequest, Conflict } from "@errors/errorGenerator";
 import { RequestSignUpDto, ResponseSignUpDto } from "./dtos";
-import { AuthRepository, User } from "./authRepository";
+import { AuthRepository, Doctor } from "./authRepository";
 import { IAuthService } from "./interface/IAuthService";
 
 @Service()
@@ -15,8 +15,8 @@ export class AuthService implements IAuthService {
         const { hospital, license, email, password } = requestSignUpDto;
 
         try {
-            const exEmail = await User.findOne({ email });
-            const exPassword = await User.findOne({ password });
+            const exEmail = await Doctor.findOne({ email });
+            const exPassword = await Doctor.findOne({ password });
 
             if (!email) {
                 throw new BadRequest("아이디는 필수로 적어야 합니다");
@@ -35,13 +35,13 @@ export class AuthService implements IAuthService {
             const hash_license = await bcrypt.hash(license, 10);
             const hash_pwd = await bcrypt.hash(password, 10);
 
-            const user = new User();
-            user.hospital = hash_hospital;
-            user.license = hash_license;
-            user.email = email;
-            user.password = hash_pwd;
+            const doctor = new Doctor();
+            doctor.hospital = hash_hospital;
+            doctor.license = hash_license;
+            doctor.email = email;
+            doctor.password = hash_pwd;
 
-            return this.authRepository.save(user);
+            return this.authRepository.save(doctor);
         } catch (err: any) {
             return {
                 status: err.status,

@@ -2,8 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, PrimaryColumn, Gene
 
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 
-@Entity("users")
-export class User extends BaseEntity {
+@Entity("doctor")
+export class Doctor extends BaseEntity {
     @PrimaryColumn({ type: "uuid" })
     @Generated("uuid")
     id: string;
