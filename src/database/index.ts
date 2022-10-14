@@ -6,7 +6,7 @@ import { DATABASE, DB_PORT, HOST, PASSWORD, _USERNAME } from "@env";
 
 const configs: Signature = {
     development: {
-        type: "mysql",
+        type: "postgres",
         host: HOST,
         port: DB_PORT,
         username: _USERNAME,
