@@ -4,6 +4,7 @@ import path from "path";
 import express, { Router } from "express";
 
 const basename: string = path.basename(__filename);
+const dir: string = path.join(__dirname, "routers");
 
 class ApiRouter {
     public router: Router = express.Router();
@@ -14,7 +15,7 @@ class ApiRouter {
     }
 
     setRouter() {
-        fs.readdirSync(__dirname)
+        fs.readdirSync(dir)
             .filter(file => {
                 return file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".ts";
             })
@@ -23,7 +24,7 @@ class ApiRouter {
 
                 this.router.use(
                     "/api/" + cur_basename,
-                    await import("./" + cur_basename).then(router => {
+                    await import("./routers/" + cur_basename).then(router => {
                         return router.default;
                     }),
                 );
