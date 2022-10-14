@@ -7,7 +7,7 @@ export class ResponseMDListDto {
     readonly kcd: string;
 
     constructor(body: any) {
-        this.name = body.name;
+        this.name = body.item_name;
         this.volume = body.volume;
         this.unit = body.unit;
         this.price = body.price;

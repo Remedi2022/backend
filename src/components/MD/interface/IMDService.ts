@@ -1,5 +1,5 @@
 import { ResponseMDListDto } from "../dtos";
 
 export interface IMDService {
-    md_list(): Promise<Mutation<ResponseMDListDto[]>>;
+    list(): Promise<Mutation<ResponseMDListDto[]>>;
 }

@@ -13,7 +13,7 @@ class MDRouter {
     }
 
     get() {
-        this.router.get("/mdList", this.mdController.md_list);
+        this.router.get("/list", this.mdController.list);
     }
 }
 

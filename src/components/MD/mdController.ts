@@ -11,9 +11,9 @@ export class MDController {
         this.mdService = Container.get(MDService);
     }
 
-    md_list = async (req: Request, res: Response, next: NextFunction) => {
+    list = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const result: Mutation<ResponseMDListDto[]> = await this.mdService.md_list();
+            const result: Mutation<ResponseMDListDto[]> = await this.mdService.list();
 
             if (!result.success) throw result;
 

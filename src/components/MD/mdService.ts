@@ -8,7 +8,7 @@ import { MD, MDRepository } from "./mdRepository";
 export class MDService implements IMDService {
     constructor(private mdRepository: MDRepository) {}
 
-    async md_list(): Promise<Mutation<ResponseMDListDto[]>> {
+    async list(): Promise<Mutation<ResponseMDListDto[]>> {
         try {
             const md_list = await this.mdRepository.findall();
             const result: ResponseMDListDto[] = [];
