@@ -14,7 +14,7 @@ export class Patient extends BaseEntity {
     name: string;
 
     @Column()
-    ppn: string;
+    rrn: string;
 
     @Column()
     phone: string;

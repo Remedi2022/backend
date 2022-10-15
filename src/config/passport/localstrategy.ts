@@ -17,7 +17,7 @@ export default () => {
     passport.use(
         new LocalStrategy(config, async (email: string, password: string, done) => {
             try {
-                const exUser = await authRepository.findOneByEmail(email);
+                const exUser = await authRepository.findOneByemail(email);
                 if (!exUser) {
                     throw new Unauthorized("회원을 찾을 수 없습니다.");
                 }

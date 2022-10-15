@@ -12,7 +12,7 @@ export default () => {
 
     passport.deserializeUser((email: string, done) => {
         authRepository
-            .findOneByEmail(email)
+            .findOneByemail(email)
             .then(user => {
                 done(null, user);
             })

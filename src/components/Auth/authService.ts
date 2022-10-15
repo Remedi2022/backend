@@ -15,15 +15,9 @@ export class AuthService implements IAuthService {
         const { hospital, license, email, password } = requestSignUpDto;
 
         try {
-            const exEmail = await Doctor.findOne({ email });
-            const exPassword = await Doctor.findOne({ password });
+            const exEmail = await this.authRepository.findByemail(email);
+            const exPassword = await this.authRepository.findBypwd(password);
 
-            if (!email) {
-                throw new BadRequest("아이디는 필수로 적어야 합니다");
-            }
-            if (!password) {
-                throw new BadRequest("비밀번호는 필수로 적어야 합니다");
-            }
             if (exEmail) {
                 throw new Conflict("중복된 아이디가 이미 존재합니다");
             }

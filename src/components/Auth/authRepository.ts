@@ -28,8 +28,22 @@ export class AuthRepository implements IAuthRepository {
         }
     }
 
-    async findOneByEmail(email: string): Promise<Doctor | undefined> {
-        const result = await Doctor.findOne({ email: email });
+    async findByemail(email: string): Promise<boolean> {
+        const result = await Doctor.findOne({ email });
+
+        if (!result) return false;
+        return true;
+    }
+
+    async findBypwd(password: string): Promise<boolean> {
+        const result = await Doctor.findOne({ password });
+
+        if (!result) return false;
+        return true;
+    }
+
+    async findOneByemail(email: string): Promise<Doctor | undefined> {
+        const result = await Doctor.findOne({ email });
         return result;
     }
 }
