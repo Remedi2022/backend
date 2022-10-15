@@ -1,4 +1,5 @@
 export class ResponseMDListDto {
+    readonly id: number;
     readonly name: string;
     readonly volume: number;
     readonly unit: string;
@@ -7,6 +8,7 @@ export class ResponseMDListDto {
     readonly kcd: string;
 
     constructor(body: any) {
+        this.id = body.id;
         this.name = body.itemName;
         this.volume = body.volume;
         this.unit = body.unit;
