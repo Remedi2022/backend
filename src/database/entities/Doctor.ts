@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, PrimaryColumn, Generated } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, PrimaryColumn, Generated, OneToMany } from "typeorm";
 
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
+import { Visitor } from "./Visitor";
 
 @Entity("doctor")
 export class Doctor extends BaseEntity {
@@ -29,6 +30,9 @@ export class Doctor extends BaseEntity {
         unique: true,
     })
     password!: string;
+
+    @OneToMany(type => Visitor, visitor => visitor.patient)
+    visitor!: Visitor[];
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;

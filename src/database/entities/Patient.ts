@@ -4,14 +4,16 @@ import { Visitor } from "./Visitor";
 
 @Entity("patient")
 export class Patient extends BaseEntity {
-    @PrimaryColumn({ type: "uuid" })
-    @Generated("uuid")
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column({
         nullable: false,
     })
     name: string;
+
+    @Column()
+    gender: string;
 
     @Column()
     rrn: string;
