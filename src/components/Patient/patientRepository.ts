@@ -1,28 +1,10 @@
 import { Patient } from "@entities/Patient";
-import { Visitor } from "@entities/Visitor";
 import { CREATED, FORBIDDEN } from "http-status-codes";
 import { Service } from "typedi";
 import { IPatientRepository } from "./interface/IPatientRepository";
 
 @Service()
 export class PatientRepository implements IPatientRepository {
-    async findall(): Promise<Visitor[]> {
-        const result: Visitor[] = await Visitor.find({
-            relations: ["patient"],
-        });
-
-        return result;
-    }
-
-    async findByrrn(rrn: string): Promise<boolean> {
-        const result = await Patient.findOne({ rrn });
-
-        console.log(result);
-
-        if (!result) return false;
-        return true;
-    }
-
     async save(patient: Patient): Promise<Mutation<void>> {
         try {
             const result = await Patient.save(patient);
@@ -41,6 +23,15 @@ export class PatientRepository implements IPatientRepository {
             };
         }
     }
+
+    async findByrrn(rrn: string): Promise<boolean> {
+        const result = await Patient.findOne({ rrn });
+
+        console.log(result);
+
+        if (!result) return false;
+        return true;
+    }
 }
 
-export { Patient, Visitor };
+export { Patient };

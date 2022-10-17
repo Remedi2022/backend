@@ -1,8 +1,6 @@
 import { Conflict } from "@errors/errorGenerator";
-import { FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";
 import { RequestPatientRegiserDto } from "./dtos/request/RequestPatientRegisterDto";
-import { ResponsePatientListDto } from "./dtos/response/ResponsePatientListDto";
 import { IPatientService } from "./interface/IPatientService";
 import { Patient, PatientRepository } from "./patientRepository";
 
@@ -30,33 +28,6 @@ export class PatientService implements IPatientService {
         } catch (err: any) {
             return {
                 status: err.status,
-                success: false,
-                message: err.message,
-                error: err,
-            };
-        }
-    }
-
-    async list(): Promise<Mutation<ResponsePatientListDto[]>> {
-        try {
-            const patient_list = await this.patientRepository.findall();
-            const result: ResponsePatientListDto[] = [];
-
-            for (const patient of patient_list) {
-                const responsePatientListDto: ResponsePatientListDto = new ResponsePatientListDto(patient);
-
-                result.push(responsePatientListDto);
-            }
-
-            return {
-                status: OK,
-                success: true,
-                message: "환자 리스트 반환 성공",
-                result,
-            };
-        } catch (err: any) {
-            return {
-                status: FORBIDDEN,
                 success: false,
                 message: err.message,
                 error: err,

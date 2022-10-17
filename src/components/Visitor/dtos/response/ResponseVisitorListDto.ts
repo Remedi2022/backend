@@ -1,4 +1,4 @@
-export class ResponsePatientListDto {
+export class ResponseVisitorListDto {
     readonly pid: string;
     readonly name: string;
     readonly status: number;
