@@ -19,6 +19,7 @@ export class PatientService implements IPatientService {
             const patient = new Patient();
 
             patient.name = req.name;
+            patient.gender = req.gender;
             patient.rrn = req.rrn;
             patient.phone = req.phone;
             patient.firstResponder = req.first_responder;

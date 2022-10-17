@@ -12,7 +12,7 @@ export class AuthService implements IAuthService {
     constructor(private authRepository: AuthRepository) {}
 
     async signup(requestSignUpDto: RequestSignUpDto): Promise<Mutation<ResponseSignUpDto>> {
-        const { hospital, license, email, password } = requestSignUpDto;
+        const { hospital, license, email, password, name } = requestSignUpDto;
 
         try {
             const exEmail = await this.authRepository.findByemail(email);
@@ -34,6 +34,7 @@ export class AuthService implements IAuthService {
             doctor.license = hash_license;
             doctor.email = email;
             doctor.password = hash_pwd;
+            doctor.name = name;
 
             return this.authRepository.save(doctor);
         } catch (err: any) {

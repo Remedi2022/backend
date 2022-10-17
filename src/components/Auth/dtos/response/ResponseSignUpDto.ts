@@ -4,6 +4,7 @@ export class ResponseSignUpDto {
     readonly license: string;
     readonly email: string;
     readonly password: string;
+    readonly name: string;
 
     constructor(body: any) {
         this.id = body.id;
@@ -11,5 +12,6 @@ export class ResponseSignUpDto {
         this.license = body.license;
         this.email = body.email;
         this.password = body.password;
+        this.name = body.name;
     }
 }

@@ -6,7 +6,7 @@ export class ResponseVisitorListDto {
     readonly checkup_time: Date;
 
     constructor(body: any) {
-        this.pid = body.patient.id.padStart(6, "0");
+        this.pid = String(body.patient.id).padStart(6, "0");
         this.name = body.patient.name;
         this.status = body.status;
         this.visit_time = body.date.createdAt;

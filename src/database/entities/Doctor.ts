@@ -31,6 +31,9 @@ export class Doctor extends BaseEntity {
     })
     password!: string;
 
+    @Column()
+    name: string;
+
     @OneToMany(type => Visitor, visitor => visitor.patient)
     visitor!: Visitor[];
 

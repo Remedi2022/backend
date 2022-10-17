@@ -10,10 +10,10 @@ export class MDService implements IMDService {
 
     async list(): Promise<Mutation<ResponseMDListDto[]>> {
         try {
-            const md_list = await this.mdRepository.findall();
+            const mds = await this.mdRepository.findall();
             const result: ResponseMDListDto[] = [];
 
-            for (const md of md_list) {
+            for (const md of mds) {
                 const responseMDListDto: ResponseMDListDto = new ResponseMDListDto(md);
 
                 result.push(responseMDListDto);
