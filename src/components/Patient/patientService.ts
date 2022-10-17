@@ -1,6 +1,6 @@
 import { Conflict } from "@errors/errorGenerator";
 import { Service } from "typedi";
-import { RequestPatientRegiserDto } from "./dtos/request/RequestPatientRegisterDto";
+import { RequestPatientRegisterDto } from "./dtos/request/RequestPatientRegisterDto";
 import { IPatientService } from "./interface/IPatientService";
 import { Patient, PatientRepository } from "./patientRepository";
 
@@ -8,7 +8,7 @@ import { Patient, PatientRepository } from "./patientRepository";
 export class PatientService implements IPatientService {
     constructor(private patientRepository: PatientRepository) {}
 
-    async register(req: RequestPatientRegiserDto): Promise<Mutation<void>> {
+    async register(req: RequestPatientRegisterDto): Promise<Mutation<void>> {
         try {
             const exRRN = await this.patientRepository.findByrrn(req.rrn);
 

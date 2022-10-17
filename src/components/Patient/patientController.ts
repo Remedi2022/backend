@@ -2,7 +2,7 @@ import { BadRequest } from "@errors/errorGenerator";
 import { validate, ValidationError } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
-import { RequestPatientRegiserDto } from "./dtos/request/RequestPatientRegisterDto";
+import { RequestPatientRegisterDto } from "./dtos/request/RequestPatientRegisterDto";
 import { PatientService } from "./patientService";
 
 export class PatientController {
@@ -13,7 +13,7 @@ export class PatientController {
 
     register = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const requestPatientRegisterDto: RequestPatientRegiserDto = new RequestPatientRegiserDto(req.body);
+            const requestPatientRegisterDto: RequestPatientRegisterDto = new RequestPatientRegisterDto(req.body);
 
             const errors: ValidationError[] = await validate(requestPatientRegisterDto);
 

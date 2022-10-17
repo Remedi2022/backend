@@ -1,5 +1,5 @@
-import { RequestPatientRegiserDto } from "../dtos/request/RequestPatientRegisterDto";
+import { RequestPatientRegisterDto } from "../dtos/request/RequestPatientRegisterDto";
 
 export interface IPatientService {
-    register(requestPatientRegisterDto: RequestPatientRegiserDto): Promise<Mutation<void>>;
+    register(requestPatientRegisterDto: RequestPatientRegisterDto): Promise<Mutation<void>>;
 }
