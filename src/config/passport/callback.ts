@@ -13,7 +13,7 @@ export const passportCb = (req: Request, res: Response, next: NextFunction) => {
             res.status(OK).send({
                 status: OK,
                 success: true,
-                message: `${user.email}님 로그인 성공`,
+                message: `${user.name}님 로그인 성공`,
                 result: user,
             });
         });

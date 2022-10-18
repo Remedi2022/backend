@@ -19,11 +19,17 @@ export class PatientService implements IPatientService {
             const patient = new Patient();
 
             patient.name = req.name;
-            patient.gender = req.gender;
+            // patient.gender =
             patient.rrn = req.rrn;
             patient.phone = req.phone;
             patient.firstResponder = req.first_responder;
             patient.address = req.address;
+
+            if (parseInt(req.rrn.substr(8, 8)) % 2 == 1) {
+                patient.gender = "M";
+            } else {
+                patient.gender = "F";
+            }
 
             return this.patientRepository.save(patient);
         } catch (err: any) {
