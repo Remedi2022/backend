@@ -1,18 +1,18 @@
 import path from "path";
 
-import express, { Application, NextFunction, Request, Response } from "express";
-import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import express, { Application, NextFunction, Request, Response } from "express";
+import session from "express-session";
+import morgan from "morgan";
 import passport from "passport";
 import FileStore from "session-file-store";
-import session from "express-session";
-import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 
+import { COOKIE_SECRET, PORT } from "config/env";
 import passportConfig from "./config/passport";
 import ApiRouter from "./routes/index";
-import { PORT, COOKIE_SECRET } from "config/env";
 
 const MAXAGE = 1 * 60 * 60 * 1000;
 const SESS_OPTION = {
@@ -23,6 +23,40 @@ const SESS_OPTION = {
 const swaggerSpec = YAML.load(path.join(__dirname, "config/swagger/openapi.yaml"));
 const sessionStore = FileStore(session);
 const store = new sessionStore(SESS_OPTION);
+
+// const kafka = new Kafka({
+//     clientId: "REMEDI",
+//     brokers: ["localhost:9092"],
+// });
+
+// export const producer = kafka.producer();
+// export const consumer = kafka.consumer({
+//     groupId: "test-group",
+// });
+
+// const initPubKafka = async () => {
+//     console.log("start publish kafka");
+//     const result = await producer.connect();
+//     console.log(result);
+// };
+
+// const initSubKafka = async () => {
+//     console.log("start subscribe");
+//     await consumer.connect();
+//     await consumer.subscribe({
+//         topic: "REMEDI-kafka-test",
+//         fromBeginning: true,
+//     });
+//     await consumer.run({
+//         eachMessage: async ({ topic, partition, message }) => {
+//             if (message.value) {
+//                 console.log({
+//                     value: message.value.toString(),
+//                 });
+//             }
+//         },
+//     });
+// };
 
 class App {
     public app: Application;
@@ -94,5 +128,8 @@ class App {
         });
     }
 }
+
+// initPubKafka();
+// initSubKafka();
 
 export default new App().app;
