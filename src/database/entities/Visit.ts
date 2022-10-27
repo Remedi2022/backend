@@ -29,7 +29,7 @@ export class Visit extends BaseEntity {
     @Column()
     bloodSugar: number;
 
-    @ManyToOne(type => Patient, patient => patient.visit, { nullable: false, onDelete: "CASCADE" })
+    @ManyToOne(type => Patient, patient => patient.visit, { nullable: true, onDelete: "CASCADE" })
     patient: Patient;
 
     @ManyToOne(type => Doctor, doctor => doctor.visit, { nullable: true, onDelete: "CASCADE" })

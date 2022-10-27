@@ -1,5 +1,5 @@
 import { Payment } from "@entities/Payment";
-import { Visitor } from "@entities/Visitor";
+import { Visit } from "@entities/Visit";
 import { CREATED, FORBIDDEN } from "http-status-codes";
 import { Service } from "typedi";
 import { IPaymentRepository } from "./interface/IPaymentRepository";
@@ -26,8 +26,8 @@ export class PaymentRepository implements IPaymentRepository {
     }
 
     async findByvid(vid: string): Promise<boolean> {
-        const visitor = await Visitor.findOne({ id: Number(vid) });
-        const result = await Payment.findOne({ visitor: visitor });
+        const visit = await Visit.findOne({ id: Number(vid) });
+        const result = await Payment.findOne({ visit: visit });
 
         console.log(result);
 

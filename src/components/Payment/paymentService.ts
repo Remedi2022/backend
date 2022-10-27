@@ -1,5 +1,5 @@
 import { Payment } from "@entities/Payment";
-import { Visitor } from "@entities/Visitor";
+import { Visit } from "@entities/Visit";
 import { Conflict } from "@errors/errorGenerator";
 import { Service } from "typedi";
 import { RequestPaymentRegisterDto } from "./dtos";
@@ -18,14 +18,14 @@ export class PaymentService implements IPaymentService {
                 throw new Conflict("이미 결제 완료된 수납 건 입니다.");
             }
 
-            const visitor = await Visitor.findOne({ id: Number(req.vid) });
-            if (!visitor) {
+            const visit = await Visit.findOne({ id: Number(req.vid) });
+            if (!visit) {
                 throw new Error("방문 정보가 없습니다.");
             }
 
             const payment = new Payment();
 
-            payment.visitor = visitor;
+            payment.visit = visit;
             // payment.gender =
             payment.individual_copayment = req.individual_copayment;
             payment.uninsured_payment = req.uninsured_payment;

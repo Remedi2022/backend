@@ -1,6 +1,8 @@
 import { BaseEntity, Column, Entity, Generated, OneToMany, PrimaryColumn } from "typeorm";
 
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
+import { Chart } from "./Chart";
+import { Visit } from "./Visit";
 
 @Entity("doctor")
 export class Doctor extends BaseEntity {

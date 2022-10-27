@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGen
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Doctor } from "./Doctor";
 import { Patient } from "./Patient";
-import { Visitor } from "./Visitor";
+import { Visit } from "./Visit";
 
 @Entity("chart")
 export class Chart extends BaseEntity {
@@ -22,14 +22,14 @@ export class Chart extends BaseEntity {
     @Column()
     consultation_fee: number;
 
-    @OneToOne(() => Visitor)
+    @OneToOne(() => Visit)
     @JoinColumn()
-    visitor: Visitor;
+    visit: Visit;
 
-    @ManyToOne(type => Patient, patient => patient.chart, { nullable: false, onDelete: "CASCADE" })
+    @ManyToOne(type => Patient, patient => patient.chart, { nullable: true, onDelete: "CASCADE" })
     patient: Patient;
 
-    @ManyToOne(type => Doctor, doctor => doctor.chart, { nullable: false, onDelete: "CASCADE" })
+    @ManyToOne(type => Doctor, doctor => doctor.chart, { nullable: true, onDelete: "CASCADE" })
     doctor: Doctor;
 
     @Column((type: any) => BaseTimeEntity)

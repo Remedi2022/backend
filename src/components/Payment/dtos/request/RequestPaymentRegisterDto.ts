@@ -12,6 +12,6 @@ export class RequestPaymentRegisterDto {
         this.nhis_copayment = body.nhis_copayment;
         this.paid_amount = body.paid_amount;
         this.payment_type = body.payment_type;
-        this.vid = body.visitor_id;
+        this.vid = body.visit_id;
     }
 }

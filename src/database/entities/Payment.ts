@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
-import { Visitor } from "./Visitor";
+import { Visit } from "./Visit";
 
 @Entity("payment")
 export class Payment extends BaseEntity {
@@ -27,9 +27,9 @@ export class Payment extends BaseEntity {
     @Column()
     payment_type: string;
 
-    @OneToOne(() => Visitor)
+    @OneToOne(() => Visit)
     @JoinColumn()
-    visitor: Visitor;
+    visit: Visit;
 
     readonly date: BaseTimeEntity;
 }
