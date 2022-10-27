@@ -1,18 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
-import { ResponseVisitorInfoDto } from "./dtos/response/ResponseVisitorInfoDto";
-import { ResponseVisitorListDto } from "./dtos/response/ResponseVisitorListDto";
-import { VisitorService } from "./visitorService";
+import { ResponseVisitInfoDto, ResponseVisitListDto } from "./dtos";
+import { VisitService } from "./visitService";
 
-export class VisitorContoller {
-    private visitorService: VisitorService;
+export class VisitConstroller {
+    private visitService: VisitService;
     constructor() {
-        this.visitorService = Container.get(VisitorService);
+        this.visitService = Container.get(VisitService);
     }
 
     list = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const result: Mutation<ResponseVisitorListDto[]> = await this.visitorService.list();
+            const result: Mutation<ResponseVisitListDto[]> = await this.visitService.list();
 
             if (!result.success) throw result;
 
@@ -26,7 +25,7 @@ export class VisitorContoller {
         try {
             const pid: string = req.query.pid as string;
 
-            const result: Mutation<ResponseVisitorInfoDto> = await this.visitorService.info(pid);
+            const result: Mutation<ResponseVisitInfoDto> = await this.visitService.info(pid);
 
             if (!result.success) throw result;
 

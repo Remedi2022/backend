@@ -1,8 +1,6 @@
 import { BaseEntity, Column, Entity, Generated, OneToMany, PrimaryColumn } from "typeorm";
 
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
-import { Chart } from "./Chart";
-import { Visitor } from "./Visitor";
 
 @Entity("doctor")
 export class Doctor extends BaseEntity {
@@ -35,8 +33,8 @@ export class Doctor extends BaseEntity {
     @Column()
     name: string;
 
-    @OneToMany(type => Visitor, visitor => visitor.patient)
-    visitor!: Visitor[];
+    @OneToMany(type => Visit, visitor => visitor.patient)
+    visit!: Visit[];
 
     @OneToMany(type => Chart, chart => chart.patient)
     chart!: Chart[];
