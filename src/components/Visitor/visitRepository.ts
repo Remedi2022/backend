@@ -1,26 +1,26 @@
-import { Visitor } from "@entities/Visitor";
+import { Visit } from "@entities/Visit";
 import { NO_CONTENT, OK } from "http-status-codes";
 import { Service } from "typedi";
-import { ResponseVisitorInfoDto } from "./dtos/response/ResponseVisitorInfoDto";
-import { IVisitorRepository } from "./interface/IVisitorRepository";
+import { ResponseVisitInfoDto } from "./dtos/response/ResponseVisitInfoDto";
+import { IVisitRepository } from "./interface/IVisitRepository";
 
 @Service()
-export class VisitorRepository implements IVisitorRepository {
-    async findall(): Promise<Visitor[]> {
-        const result: Visitor[] = await Visitor.find({
+export class VisitRepository implements IVisitRepository {
+    async findall(): Promise<Visit[]> {
+        const result: Visit[] = await Visit.find({
             relations: ["patient"],
         });
 
         return result;
     }
 
-    async findInfo(pid: string): Promise<Mutation<ResponseVisitorInfoDto>> {
-        const result = await Visitor.findOne({
+    async findInfo(pid: string): Promise<Mutation<ResponseVisitInfoDto>> {
+        const result = await Visit.findOne({
             where: { id: pid },
             relations: ["patient"],
         });
 
-        const response: ResponseVisitorInfoDto = new ResponseVisitorInfoDto(result);
+        const response: ResponseVisitInfoDto = new ResponseVisitInfoDto(result);
 
         if (result) {
             return {
@@ -39,4 +39,4 @@ export class VisitorRepository implements IVisitorRepository {
     }
 }
 
-export { Visitor };
+export { Visit };

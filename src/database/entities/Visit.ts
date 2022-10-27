@@ -1,19 +1,10 @@
-import {
-    BaseEntity,
-    Column,
-    Entity,
-    Generated,
-    JoinColumn,
-    ManyToOne,
-    PrimaryColumn,
-    PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Doctor } from "./Doctor";
 import { Patient } from "./Patient";
 
-@Entity("visitor")
-export class Visitor extends BaseEntity {
+@Entity("visit")
+export class Visit extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -38,10 +29,10 @@ export class Visitor extends BaseEntity {
     @Column()
     bloodSugar: number;
 
-    @ManyToOne(type => Patient, patient => patient.visitor, { nullable: false, onDelete: "CASCADE" })
+    @ManyToOne(type => Patient, patient => patient.visit, { nullable: false, onDelete: "CASCADE" })
     patient: Patient;
 
-    @ManyToOne(type => Doctor, doctor => doctor.visitor, { nullable: true, onDelete: "CASCADE" })
+    @ManyToOne(type => Doctor, doctor => doctor.visit, { nullable: true, onDelete: "CASCADE" })
     doctor: Doctor;
 
     @Column((type: any) => BaseTimeEntity)

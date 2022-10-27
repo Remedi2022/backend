@@ -1,4 +1,4 @@
-export class ResponseVisitorInfoDto {
+export class ResponseVisitInfoDto {
     readonly name: string;
     readonly gender: string;
     readonly temperature: number;

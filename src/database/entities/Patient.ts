@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, Generated, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
-import { Visitor } from "./Visitor";
+import { Visit } from "./Visit";
 
 @Entity("patient")
 export class Patient extends BaseEntity {
@@ -27,8 +27,8 @@ export class Patient extends BaseEntity {
     @Column()
     address: string;
 
-    @OneToMany(type => Visitor, visitor => visitor.patient)
-    visitor!: Visitor[];
+    @OneToMany(type => Visit, visitor => visitor.patient)
+    visit!: Visit[];
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;

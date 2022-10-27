@@ -1,2 +1,2 @@
-export { ResponseVisitorInfoDto } from "./response/ResponseVisitorInfoDto";
-export { ResponseVisitorListDto } from "./response/ResponseVisitorListDto";
+export { ResponseVisitInfoDto } from "./response/ResponseVisitInfoDto";
+export { ResponseVisitListDto } from "./response/ResponseVisitListDto";

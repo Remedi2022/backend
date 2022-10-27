@@ -1,20 +1,20 @@
 import { FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";
-import { ResponseVisitorInfoDto, ResponseVisitorListDto } from "./dtos";
-import { IVisitorService } from "./interface/IVisitorService";
-import { VisitorRepository } from "./visitorRepository";
+import { ResponseVisitInfoDto, ResponseVisitListDto } from "./dtos";
+import { IVisitService } from "./interface/IVisitService";
+import { VisitRepository } from "./visitRepository";
 
 @Service()
-export class VisitorService implements IVisitorService {
-    constructor(private visitorRepository: VisitorRepository) {}
+export class VisitService implements IVisitService {
+    constructor(private visitorRepository: VisitRepository) {}
 
-    async list(): Promise<Mutation<ResponseVisitorListDto[]>> {
+    async list(): Promise<Mutation<ResponseVisitListDto[]>> {
         try {
             const visitors = await this.visitorRepository.findall();
-            const result: ResponseVisitorListDto[] = [];
+            const result: ResponseVisitListDto[] = [];
 
             for (const visitor of visitors) {
-                const responseVisitorListDto: ResponseVisitorListDto = new ResponseVisitorListDto(visitor);
+                const responseVisitorListDto: ResponseVisitListDto = new ResponseVisitListDto(visitor);
 
                 result.push(responseVisitorListDto);
             }
@@ -35,7 +35,7 @@ export class VisitorService implements IVisitorService {
         }
     }
 
-    async info(pid: string): Promise<Mutation<ResponseVisitorInfoDto>> {
+    async info(pid: string): Promise<Mutation<ResponseVisitInfoDto>> {
         return await this.visitorRepository.findInfo(pid);
     }
 }
