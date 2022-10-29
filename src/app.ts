@@ -10,7 +10,7 @@ import FileStore from "session-file-store";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 
-import { COOKIE_SECRET, PORT } from "config/env";
+import { COOKIE_SECRET, PORT } from "./config/env";
 import passportConfig from "./config/passport";
 import ApiRouter from "./routes/index";
 
@@ -20,7 +20,7 @@ const SESS_OPTION = {
     minTimeOut: 100,
     maxTimeout: 200,
 };
-const swaggerSpec = YAML.load(path.join(__dirname, "config/swagger/openapi.yaml"));
+const swaggerSpec = YAML.load(path.join(__dirname, "./config/swagger/openapi.yaml"));
 const sessionStore = FileStore(session);
 const store = new sessionStore(SESS_OPTION);
 
