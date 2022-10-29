@@ -1,5 +1,5 @@
 import { Chart } from "../chartRepository";
 
 export interface IChartRepository {
-    findall(): Promise<Chart[]>;
+    findall(pid: string): Promise<Chart[]>;
 }

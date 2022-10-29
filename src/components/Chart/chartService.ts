@@ -8,9 +8,9 @@ import { IChartService } from "./interface/IChartService";
 export class ChartService implements IChartService {
     constructor(private chartRepository: ChartRepository) {}
 
-    async list(): Promise<Mutation<ResponseChartListDto[]>> {
+    async list(pid: string): Promise<Mutation<ResponseChartListDto[]>> {
         try {
-            const charts = await this.chartRepository.findall();
+            const charts = await this.chartRepository.findall(pid);
             const result: ResponseChartListDto[] = [];
 
             for (const chart of charts) {

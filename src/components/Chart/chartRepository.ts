@@ -4,11 +4,11 @@ import { IChartRepository } from "./interface/IChartRepository";
 
 @Service()
 export class ChartRepository implements IChartRepository {
-    async findall(): Promise<Chart[]> {
+    async findall(pid: string): Promise<Chart[]> {
         const result: Chart[] = await Chart.find({
-            order: {
-                id: "DESC",
-            },
+            order: { id: "DESC" },
+            where: { id: pid },
+            relations: ["visit", "patient", "doctor"],
         });
 
         return result;

@@ -1,5 +1,5 @@
 import { ResponseChartListDto } from "../dtos";
 
 export interface IChartService {
-    list(): Promise<Mutation<ResponseChartListDto[]>>;
+    list(pid: string): Promise<Mutation<ResponseChartListDto[]>>;
 }
