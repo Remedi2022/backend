@@ -1,5 +1,7 @@
 import { Conflict } from "@errors/errorGenerator";
+import { OK } from "http-status-codes";
 import { Service } from "typedi";
+import { ResponseSearchPatientsDto } from "./dtos";
 import { RequestPatientRegisterDto } from "./dtos/request/RequestPatientRegisterDto";
 import { IPatientService } from "./interface/IPatientService";
 import { Patient, PatientRepository } from "./patientRepository";
@@ -35,6 +37,33 @@ export class PatientService implements IPatientService {
         } catch (err: any) {
             return {
                 status: err.status,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
+    async search(patient_name: string): Promise<Mutation<ResponseSearchPatientsDto[]>> {
+        try {
+            const patients = await this.patientRepository.findByname(patient_name);
+            const result: ResponseSearchPatientsDto[] = [];
+
+            for (const patient of patients) {
+                const responseSearchPatient: ResponseSearchPatientsDto = new ResponseSearchPatientsDto(patient);
+
+                result.push(responseSearchPatient);
+            }
+
+            return {
+                status: OK,
+                success: true,
+                message: "환자 검색 성공",
+                result,
+            };
+        } catch (err: any) {
+            return {
+                status: 400,
                 success: false,
                 message: err.message,
                 error: err,
