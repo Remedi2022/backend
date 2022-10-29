@@ -2,7 +2,7 @@ import { BadRequest } from "@errors/errorGenerator";
 import { validate, ValidationError } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
-import { RequestPatientRegisterDto } from "./dtos/request/RequestPatientRegisterDto";
+import { RequestPatientRegisterDto, ResponseSearchPatientsDto } from "./dtos";
 import { PatientService } from "./patientService";
 
 export class PatientController {
@@ -24,6 +24,20 @@ export class PatientController {
             }
 
             const result: Mutation<void> = await this.patientService.register(requestPatientRegisterDto);
+
+            if (!result.success) throw result;
+
+            res.status(result.status).send(result);
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    search = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const patient_name: string = req.query.name as string;
+
+            const result: Mutation<ResponseSearchPatientsDto[]> = await this.patientService.search(patient_name);
 
             if (!result.success) throw result;
 

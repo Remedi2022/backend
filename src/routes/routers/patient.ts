@@ -13,6 +13,7 @@ class PatientRouter {
 
     post() {
         this.router.post("/register", this.patientController.register);
+        this.router.get("/search", this.patientController.search);
     }
 }
 
