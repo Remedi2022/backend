@@ -14,8 +14,8 @@ export class ResponseChartListDto {
         this.diagnosis = body.diagnosis;
         this.prescription = body.prescription;
         this.consultation_fee = body.consultation_fee;
-        this.vid = body.visitor_id;
-        this.pid = body.patient_id;
-        this.did = body.doctor_id;
+        this.vid = body.visit.id;
+        this.pid = body.patient.id;
+        this.did = body.doctor.id;
     }
 }

@@ -1,6 +1,7 @@
 import { Visit } from "@entities/Visit";
 import { NO_CONTENT, OK } from "http-status-codes";
 import { Service } from "typedi";
+import { LessThan } from "typeorm";
 import { ResponseVisitInfoDto } from "./dtos/response/ResponseVisitInfoDto";
 import { IVisitRepository } from "./interface/IVisitRepository";
 
@@ -8,13 +9,16 @@ import { IVisitRepository } from "./interface/IVisitRepository";
 export class VisitRepository implements IVisitRepository {
     async findall(): Promise<Visit[]> {
         const result: Visit[] = await Visit.find({
+            where: {
+                status: LessThan(4),
+            },
             relations: ["patient"],
         });
 
         return result;
     }
 
-    async findInfo(pid: string): Promise<Mutation<ResponseVisitInfoDto>> {
+    async findBypid(pid: string): Promise<Mutation<ResponseVisitInfoDto>> {
         const result = await Visit.findOne({
             where: { id: pid },
             relations: ["patient"],

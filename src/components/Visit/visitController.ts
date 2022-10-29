@@ -34,4 +34,10 @@ export class VisitConstroller {
             next(err);
         }
     };
+
+    // record = async (req: Request, res: Response, next: NextFunction) => {
+    //     try {
+    //         const pid: string = req.query.pid as string;
+    //     }
+    // }
 }

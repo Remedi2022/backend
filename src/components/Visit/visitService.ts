@@ -36,6 +36,6 @@ export class VisitService implements IVisitService {
     }
 
     async info(pid: string): Promise<Mutation<ResponseVisitInfoDto>> {
-        return await this.visitorRepository.findInfo(pid);
+        return await this.visitorRepository.findBypid(pid);
     }
 }
