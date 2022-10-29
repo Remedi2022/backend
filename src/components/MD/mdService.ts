@@ -34,4 +34,25 @@ export class MDService implements IMDService {
             };
         }
     }
+
+    async findOneById(id: number): Promise<Mutation<MD>> {
+        try {
+            const md = await this.mdRepository.findOneById(id);
+            const result: MD = md;
+
+            return {
+                status: OK,
+                success: true,
+                message: "MD 리스트 반환 성공",
+                result,
+            };
+        } catch (err: any) {
+            return {
+                status: FORBIDDEN,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
 }

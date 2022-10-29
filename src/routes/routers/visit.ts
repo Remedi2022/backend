@@ -1,4 +1,4 @@
-import { VisitConstroller } from "components/Visitor/visitController";
+import { VisitConstroller } from "components/Visit/visitController";
 import express, { Router } from "express";
 
 class VisitRouter {

@@ -14,6 +14,7 @@ class MDRouter {
 
     get() {
         this.router.get("/list", this.mdController.list);
+        this.router.get("/:id", this.mdController.findOneById);
     }
 }
 

@@ -13,6 +13,18 @@ export class MDRepository implements IMDRepository {
 
         return result;
     }
+
+    async findOneById(id: number): Promise<MD> {
+        const result: MD | undefined = await MD.findOne({
+            id,
+        });
+
+        if (!result) {
+            throw new Error();
+        }
+
+        return result;
+    }
 }
 
 export { MD };
