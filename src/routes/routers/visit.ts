@@ -14,7 +14,7 @@ class VisitRouter {
     get() {
         this.router.get("/list", this.visitController.list);
         this.router.get("/info", this.visitController.info);
-        // this.router.get("/record", this.visitController.record);
+        this.router.get("/record", this.visitController.record);
     }
 }
 

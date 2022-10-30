@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
 import { ResponseVisitInfoDto, ResponseVisitListDto } from "./dtos";
+import { ResponseVisitRecordDto } from "./dtos/response/ResponseVisitRecordDto";
 import { VisitService } from "./visitService";
 
 export class VisitConstroller {
@@ -35,9 +36,17 @@ export class VisitConstroller {
         }
     };
 
-    // record = async (req: Request, res: Response, next: NextFunction) => {
-    //     try {
-    //         const pid: string = req.query.pid as string;
-    //     }
-    // }
+    record = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const pid: string = req.query.pid as string;
+
+            const result: Mutation<ResponseVisitRecordDto[]> = await this.visitService.record(pid);
+
+            if (!result.success) throw result;
+
+            res.status(result.status).send(result);
+        } catch (err) {
+            next(err);
+        }
+    };
 }
