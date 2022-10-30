@@ -13,7 +13,15 @@ export class Doctor extends BaseEntity {
     @Column({
         nullable: false,
     })
-    hospital: string;
+    hospital_code: string;
+
+    @Column({
+        nullable: false,
+    })
+    hospital_name: string;
+
+    @Column()
+    business_registration_number: string;
 
     @Column({
         nullable: false,
