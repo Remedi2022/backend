@@ -23,7 +23,7 @@ export class VisitRepository implements IVisitRepository {
 
     async findBypid(pid: string): Promise<Mutation<ResponseVisitInfoDto>> {
         const result = await Visit.findOne({
-            where: { id: pid },
+            where: { patient: { id: pid } },
             relations: ["patient"],
         });
 
