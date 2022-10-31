@@ -9,23 +9,23 @@ export class Payment extends BaseEntity {
 
     // 본인 부담금 // 40000
     @Column()
-    individual_copayment: number;
+    individualCopayment: number;
 
     // 비급여 // 5000
     @Column()
-    uninsured_payment: number;
+    uninsuredPayment: number;
 
     // 공단 부담금 // 80000
     @Column()
-    nhis_copayment: number;
+    nhisCopayment: number;
 
     // 45000
     @Column()
-    paid_amount: number;
+    paidAmount: number;
 
     // 카드 등
     @Column()
-    payment_type: string;
+    paymentType: string;
 
     @OneToOne(() => Visit)
     @JoinColumn()

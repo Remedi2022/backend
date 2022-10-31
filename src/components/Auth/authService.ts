@@ -31,9 +31,9 @@ export class AuthService implements IAuthService {
             const hash_pwd = await bcrypt.hash(password, 10);
 
             const doctor = new Doctor();
-            doctor.hospital_code = hash_hospital;
-            doctor.hospital_name = hospital_name;
-            doctor.business_registration_number = business_registration_number;
+            doctor.hospitalCode = hash_hospital;
+            doctor.hospitalName = hospital_name;
+            doctor.businessRegistrationNumber = business_registration_number;
             doctor.license = hash_license;
             doctor.email = email;
             doctor.password = hash_pwd;
