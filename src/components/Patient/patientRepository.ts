@@ -28,14 +28,11 @@ export class PatientRepository implements IPatientRepository {
     async findByrrn(rrn: string): Promise<boolean> {
         const result = await Patient.findOne({ rrn });
 
-        console.log(result);
-
         if (!result) return false;
         return true;
     }
 
     async findByname(patient_name: string): Promise<Patient[]> {
-        console.log(patient_name);
         const result: Patient[] = await Patient.find({
             where: {
                 name: Like(`%${patient_name}%`),
@@ -45,6 +42,13 @@ export class PatientRepository implements IPatientRepository {
             },
         });
 
+        return result;
+    }
+
+    async findById(id: number): Promise<Patient> {
+        const result: Patient | undefined = await Patient.findOne({ id });
+
+        if (!result) throw Error;
         return result;
     }
 }

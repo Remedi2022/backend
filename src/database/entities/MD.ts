@@ -1,5 +1,7 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import patient from "routes/routers/patient";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
+import { Patient } from "./Patient";
 
 @Entity("md")
 export class MD extends BaseEntity {
@@ -25,6 +27,9 @@ export class MD extends BaseEntity {
 
     @Column()
     kcd: string;
+
+    @ManyToOne(type => Patient, patient => patient.chart, { nullable: true, onDelete: "CASCADE" })
+    patient: Patient;
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;

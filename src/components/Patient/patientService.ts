@@ -3,6 +3,7 @@ import { OK } from "http-status-codes";
 import { Service } from "typedi";
 import { ResponseSearchPatientsDto } from "./dtos";
 import { RequestPatientRegisterDto } from "./dtos/request/RequestPatientRegisterDto";
+import { ResponsePatientDto } from "./dtos/response/ResponsePatientDto";
 import { IPatientService } from "./interface/IPatientService";
 import { Patient, PatientRepository } from "./patientRepository";
 
@@ -21,7 +22,6 @@ export class PatientService implements IPatientService {
             const patient = new Patient();
 
             patient.name = req.name;
-            // patient.gender =
             patient.rrn = req.rrn;
             patient.phone = req.phone;
             patient.firstResponder = req.first_responder;
@@ -54,6 +54,27 @@ export class PatientService implements IPatientService {
 
                 result.push(responseSearchPatient);
             }
+
+            return {
+                status: OK,
+                success: true,
+                message: "환자 검색 성공",
+                result,
+            };
+        } catch (err: any) {
+            return {
+                status: 400,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
+    async find(patient_id: number): Promise<Mutation<ResponsePatientDto>> {
+        try {
+            const patient = await this.patientRepository.findById(patient_id);
+            const result: ResponsePatientDto = new ResponsePatientDto(patient);
 
             return {
                 status: OK,

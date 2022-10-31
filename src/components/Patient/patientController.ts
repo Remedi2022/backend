@@ -46,4 +46,18 @@ export class PatientController {
             next(err);
         }
     };
+
+    find = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const patient_id: number = req.body.pid as number;
+
+            const result: Mutation<ResponseSearchPatientsDto> = await this.patientService.find(patient_id);
+
+            if (!result.success) throw result;
+
+            res.status(result.status).send(result);
+        } catch (err) {
+            next(err);
+        }
+    };
 }
