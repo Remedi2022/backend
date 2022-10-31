@@ -77,7 +77,7 @@ export class VisitService implements IVisitService {
 
     async register(dto: RequestVisitRegisterDto): Promise<Mutation<void>> {
         try {
-            const patient = await this.patientRepository.findByid(dto.pid);
+            const patient = await this.patientRepository.findById(dto.pid);
             const doctor = await this.doctorRepository.findByid(dto.did);
 
             if (!patient) {
