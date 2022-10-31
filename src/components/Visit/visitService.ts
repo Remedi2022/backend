@@ -50,7 +50,6 @@ export class VisitService implements IVisitService {
     async record(pid: string): Promise<Mutation<ResponseVisitRecordDto[]>> {
         try {
             const visits = await this.visitRepository.findallBypid(pid);
-            console.log(visits);
             const result: ResponseVisitRecordDto[] = [];
 
             for (const visit of visits) {
