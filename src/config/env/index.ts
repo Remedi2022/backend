@@ -3,8 +3,8 @@ import { config } from "dotenv";
 config({ path: "src/.env" });
 
 // const PORT = 8888;
-// const _USERNAME = "postgres";
-// const PASSWORD = "";
+// const _USERNAME = "oogab";
+// const PASSWORD = "rejavaji";
 // const DATABASE = "REMEDI";
 // const HOST = "127.0.0.1";
 // const DB_PORT = 5432;

@@ -12,7 +12,8 @@ export class AuthService implements IAuthService {
     constructor(private authRepository: AuthRepository) {}
 
     async signup(requestSignUpDto: RequestSignUpDto): Promise<Mutation<ResponseSignUpDto>> {
-        const { hospital, license, email, password, name } = requestSignUpDto;
+        const { hospital_code, hospital_name, business_registration_number, license, email, password, name } =
+            requestSignUpDto;
 
         try {
             const exEmail = await this.authRepository.findByemail(email);
@@ -25,12 +26,14 @@ export class AuthService implements IAuthService {
                 throw new Conflict("중복된 비밀번호가 이미 존재합니다");
             }
 
-            const hash_hospital = await bcrypt.hash(hospital, 10);
+            const hash_hospital = await bcrypt.hash(hospital_code, 10);
             const hash_license = await bcrypt.hash(license, 10);
             const hash_pwd = await bcrypt.hash(password, 10);
 
             const doctor = new Doctor();
-            doctor.hospital = hash_hospital;
+            doctor.hospital_code = hash_hospital;
+            doctor.hospital_name = hospital_name;
+            doctor.business_registration_number = business_registration_number;
             doctor.license = hash_license;
             doctor.email = email;
             doctor.password = hash_pwd;
