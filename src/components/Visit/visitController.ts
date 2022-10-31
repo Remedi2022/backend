@@ -1,6 +1,9 @@
+import { BadRequest } from "@errors/errorGenerator";
+import { validate, ValidationError } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
 import { ResponseVisitInfoDto, ResponseVisitListDto } from "./dtos";
+import { RequestVisitRegisterDto } from "./dtos/request/RequestVisitRegisterDto";
 import { ResponseVisitRecordDto } from "./dtos/response/ResponseVisitRecordDto";
 import { VisitService } from "./visitService";
 
@@ -41,6 +44,28 @@ export class VisitConstroller {
             const pid: string = req.query.pid as string;
 
             const result: Mutation<ResponseVisitRecordDto[]> = await this.visitService.record(pid);
+
+            if (!result.success) throw result;
+
+            res.status(result.status).send(result);
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    register = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const requestVisitRegisterDto: RequestVisitRegisterDto = new RequestVisitRegisterDto(req.body);
+
+            const errors: ValidationError[] = await validate(requestVisitRegisterDto);
+
+            if (errors.length > 0) {
+                const errorMessage: any = errors[0].constraints;
+                const message: any = Object.values(errorMessage)[0];
+                throw new BadRequest(message);
+            }
+
+            const result: Mutation<void> = await this.visitService.register(requestVisitRegisterDto);
 
             if (!result.success) throw result;
 

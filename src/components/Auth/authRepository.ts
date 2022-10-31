@@ -46,6 +46,13 @@ export class AuthRepository implements IAuthRepository {
         const result = await Doctor.findOne({ email });
         return result;
     }
+
+    async findByid(id: string): Promise<Doctor | undefined> {
+        const result = await Doctor.findOne({ id });
+
+        if (!result) return undefined;
+        return result;
+    }
 }
 
 export { Doctor };
