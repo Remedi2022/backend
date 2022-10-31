@@ -1,7 +1,7 @@
 import { Patient } from "@entities/Patient";
 import { Visit } from "@entities/Visit";
 import { BadRequest } from "@errors/errorGenerator";
-import { NO_CONTENT, OK } from "http-status-codes";
+import { CREATED, FORBIDDEN, NO_CONTENT, OK } from "http-status-codes";
 import { Service } from "typedi";
 import { LessThan } from "typeorm";
 import { ResponseVisitRecordDto } from "./dtos";
@@ -10,6 +10,25 @@ import { IVisitRepository } from "./interface/IVisitRepository";
 
 @Service()
 export class VisitRepository implements IVisitRepository {
+    async save(visit: Visit): Promise<Mutation<void>> {
+        try {
+            const result = await Visit.save(visit);
+
+            return {
+                status: CREATED,
+                success: true,
+                message: "방문 환자 등록 성공",
+            };
+        } catch (err: any) {
+            return {
+                status: FORBIDDEN,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
     async findall(): Promise<Visit[]> {
         const result: Visit[] = await Visit.find({
             where: {
@@ -21,9 +40,9 @@ export class VisitRepository implements IVisitRepository {
         return result;
     }
 
-    async findBypid(pid: string): Promise<Mutation<ResponseVisitInfoDto>> {
+    async findBypid(id: string): Promise<Mutation<ResponseVisitInfoDto>> {
         const result = await Visit.findOne({
-            where: { patient: { id: pid } },
+            where: { patient: { id } },
             relations: ["patient"],
         });
 

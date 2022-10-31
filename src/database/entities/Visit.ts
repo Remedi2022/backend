@@ -12,6 +12,15 @@ export class Visit extends BaseEntity {
     status: number;
 
     @Column()
+    benefitType: string; // 항상 건강보험
+
+    @Column()
+    purpose: string; // 방문목적
+
+    @Column()
+    purposeDetail: string; // 세부목적
+
+    @Column()
     temperature: number;
 
     @Column()

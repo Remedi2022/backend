@@ -49,11 +49,11 @@ export class PaymentService implements IPaymentService {
             const payment = new Payment();
 
             payment.visit = visit;
-            payment.individual_copayment = req.individual_copayment;
-            payment.uninsured_payment = req.uninsured_payment;
-            payment.nhis_copayment = req.nhis_copayment;
-            payment.paid_amount = req.paid_amount;
-            payment.payment_type = req.payment_type;
+            payment.individualCopayment = req.individual_copayment;
+            payment.uninsuredPayment = req.uninsured_payment;
+            payment.nhisCopayment = req.nhis_copayment;
+            payment.paidAmount = req.paid_amount;
+            payment.paymentType = req.payment_type;
 
             return this.paymentRepository.save(payment);
         } catch (err: any) {
