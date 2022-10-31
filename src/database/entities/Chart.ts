@@ -1,7 +1,17 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+    BaseEntity,
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+} from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Doctor } from "./Doctor";
 import { Patient } from "./Patient";
+import { PrescribedMD } from "./PrescribedMD";
 import { Visit } from "./Visit";
 
 @Entity("chart")
@@ -31,6 +41,12 @@ export class Chart extends BaseEntity {
 
     @ManyToOne(type => Doctor, doctor => doctor.chart, { nullable: true, onDelete: "CASCADE" })
     doctor: Doctor;
+
+    @OneToMany(type => Chart, chart => chart.patient)
+    chart!: Chart[];
+
+    @OneToMany(type => PrescribedMD, prescribedmd => prescribedmd.chart, { nullable: true, onDelete: "CASCADE" })
+    prescribedmd!: PrescribedMD[];
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;

@@ -47,10 +47,10 @@ export class AuthRepository implements IAuthRepository {
         return result;
     }
 
-    async findById(id: string): Promise<Doctor | undefined> {
+    async findById(id: string): Promise<Doctor> {
         const result = await Doctor.findOne({ id });
 
-        if (!result) throw Error;
+        if (!result) throw Error("등록되지 않은 의사입니다.");
         return result;
     }
 

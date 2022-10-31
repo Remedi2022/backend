@@ -74,6 +74,16 @@ export class VisitRepository implements IVisitRepository {
             relations: ["doctor"],
         });
     }
+
+    async findById(id: number): Promise<Visit> {
+        const result = await Visit.findOne({ id });
+
+        if (!result) {
+            throw Error("방문 정보가 없습니다.");
+        }
+
+        return result;
+    }
 }
 
 export { Visit };
