@@ -17,9 +17,10 @@ export class ChartRepository implements IChartRepository {
     async findOneByVid(vid: number): Promise<Chart> {
         const result: Chart | undefined = await Chart.findOne({
             where: {
-                visit_id: vid,
+                visit: {
+                    id: vid,
+                },
             },
-            relations: ["Visit"],
         });
 
         if (!result) {

@@ -2,6 +2,7 @@ import { Patient } from "@entities/Patient";
 import { CREATED, FORBIDDEN } from "http-status-codes";
 import { Service } from "typedi";
 import { Like } from "typeorm";
+import { ResponsePatientDto } from "./dtos/response/ResponsePatientDto";
 import { IPatientRepository } from "./interface/IPatientRepository";
 
 @Service()
@@ -48,7 +49,10 @@ export class PatientRepository implements IPatientRepository {
     async findById(id: number): Promise<Patient> {
         const result: Patient | undefined = await Patient.findOne({ id });
 
-        if (!result) throw Error;
+        if (!result) {
+            throw Error("존재하지 않는 환자 입니다.");
+        }
+
         return result;
     }
 }

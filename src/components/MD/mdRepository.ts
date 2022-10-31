@@ -1,5 +1,4 @@
 import { MD } from "@entities/MD";
-import visit from "routes/routers/visit";
 import { Service } from "typedi";
 import { IMDRepository } from "./interface/IMDRepository";
 

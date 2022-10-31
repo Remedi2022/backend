@@ -24,6 +24,32 @@ export class MDService implements IMDService {
                 result.push(responseMDListDto);
             }
 
+            const visit = await Visit.findOne({ where: { id: 1 }, relations: ["doctor", "patient"] });
+            if (!visit) {
+                throw new Error("방문 정보가 없습니다.");
+            }
+
+            const mdRepository = new MDRepository();
+            const chartRepository = new ChartRepository();
+
+            // const MDInfo = await mdRepository.listByVid(visit.id);
+            const ChartInfo = await chartRepository.findOneByVid(visit.id);
+            // const PatientInfo = await patientRepository.findById(visit.patient.id);
+
+            console.log("VisitInfo : ", visit.id);
+            console.log("ChartInfo : ", ChartInfo);
+
+            const HL7 = "";
+
+            const MSH = `MSH||||${visit.hBlood}||||`;
+            const IVC = "IVC||||||||";
+            const PSS = "PSS|";
+            const PSG = "PSG|";
+            const PSL = "PSL|";
+            const PID = "PID|";
+            const IN1 = "IN1|";
+            const IN2 = "IN2|";
+
             return {
                 status: OK,
                 success: true,

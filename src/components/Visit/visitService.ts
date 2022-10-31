@@ -1,6 +1,6 @@
 import { Conflict } from "@errors/errorGenerator";
 import { AuthRepository } from "components/Auth/authRepository";
-import { PatientRepository } from "components/Patient/patientRepository";
+import { Patient, PatientRepository } from "components/Patient/patientRepository";
 import { FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";
 import { ResponseVisitInfoDto, ResponseVisitListDto, ResponseVisitRecordDto } from "./dtos";

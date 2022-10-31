@@ -1,5 +1,5 @@
 import patient from "routes/routers/patient";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Visit } from "./Visit";
 
@@ -27,9 +27,6 @@ export class MD extends BaseEntity {
 
     @Column()
     kcd: string;
-
-    @ManyToOne(type => Visit, visit => visit.md, { nullable: true, onDelete: "CASCADE" })
-    visit: Visit;
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;

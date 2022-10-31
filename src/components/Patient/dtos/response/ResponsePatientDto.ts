@@ -13,7 +13,7 @@ export class ResponsePatientDto {
         this.gender = body.gender;
         this.rrn = body.rrn;
         this.phone = body.phone;
-        this.first_responder = body.first_responder;
+        this.first_responder = body.firstResponder;
         this.address = body.address;
     }
 }
