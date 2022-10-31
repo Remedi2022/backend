@@ -21,33 +21,44 @@ export class PaymentService implements IPaymentService {
                 throw new Conflict("이미 결제 완료된 수납 건 입니다.");
             }
 
-            const visit = await Visit.findOne({ id: Number(req.vid) });
+            const visit = await Visit.findOne({ where: { id: 1 }, relations: ["doctor", "patient"] });
             if (!visit) {
                 throw new Error("방문 정보가 없습니다.");
             }
 
-            const authRepository = new AuthRepository();
             const mdRepository = new MDRepository();
             const chartRepository = new ChartRepository();
 
-            const DoctorInfo = await authRepository.findOneByVid(visit.id);
-            const MDInfo = await mdRepository.listByVid(visit.id);
-            const ChartInfo = await chartRepository.findOneByVid(visit.id);
+            // const MDInfo = await mdRepository.listByVid(visit.id);
+            const chart = await chartRepository.findOneByVid(visit.id);
+            // const PatientInfo = await patientRepository.findById(visit.patient.id);
 
-            console.log("DoctorInfo : ", DoctorInfo);
-            console.log("MDInfo : ", MDInfo);
-            console.log("ChartInfo : ", ChartInfo);
+            console.log("VisitInfo : ", visit.id);
+            console.log("ChartInfo : ", chart);
+
+            const doctor = visit.doctor;
+            const patient = visit.patient;
+
+            const DT = new Date();
+            const YYYY = DT.getFullYear();
+            const MM = DT.getMonth() + 1;
+            const DD = DT.getDate();
+            const HH = DT.getHours();
+            const mm = DT.getMinutes();
+            const SS = DT.getSeconds();
+
+            const createdTime = `${YYYY}${MM}${DD}${HH}${mm}${SS}`;
 
             const HL7 = "";
 
-            const MSH = "MSH|";
-            const IVC = "IVC|";
-            const PSS = "PSS|";
-            const PSG = "PSG|";
-            const PSL = "PSL|";
-            const PID = "PID|";
-            const IN1 = "IN1|";
-            const IN2 = "IN2|";
+            const MSH = `MSH|^~.&|||||${createdTime}||EHC^E01^EHC_E01|1817457|P|2.6||||||||||||||`;
+            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}| ||REMEDI^12345|NHLS||||||||${doctor.name}||||||AMB||||||`;
+            const PSS = `PSS|1||1| |진료비 세부산정내역|`;
+            const PSG = `PSG|1||1|Y| |진찰료|`;
+            const PSL = `PSL|1||1|||P|md.kcd||md.item_name|${chart.date}|||md.price|chart.prescribedMD|?|req.individual_copayment|||||Y|||||||2||||||||||||||||||||chart.prescribedMD|`;
+            const PID = `PID|||${patient.id}^^^^PI~${patient.rrn}^^^SS||${patient.name}|`;
+            const IN1 = `IN1|`;
+            const IN2 = `IN2|`;
 
             const payment = new Payment();
 
