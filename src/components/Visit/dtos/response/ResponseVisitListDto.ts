@@ -1,4 +1,5 @@
 export class ResponseVisitListDto {
+    readonly id: number;
     readonly pid: string;
     readonly name: string;
     readonly status: number;
@@ -6,6 +7,7 @@ export class ResponseVisitListDto {
     readonly checkup_time: Date;
 
     constructor(body: any) {
+        this.id = body.id;
         this.pid = String(body.patient.id).padStart(6, "0");
         this.name = body.patient.name;
         this.status = body.status;
