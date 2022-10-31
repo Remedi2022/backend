@@ -5,7 +5,7 @@ import { AuthRepository } from "components/Auth/authRepository";
 import { ChartRepository } from "components/Chart/chartRepository";
 import { MDRepository } from "components/MD/mdRepository";
 import { Service } from "typedi";
-import { RequestPaymentRegisterDto } from "./dtos";
+import { RequestPaymentRegisterDto, ResponsePaymentPriceDto } from "./dtos";
 import { IPaymentService } from "./interface/IPaymentService";
 import { PaymentRepository } from "./paymentRepository";
 
@@ -67,5 +67,9 @@ export class PaymentService implements IPaymentService {
                 error: err,
             };
         }
+    }
+
+    async price(vid: number): Promise<Mutation<ResponsePaymentPriceDto>> {
+        return await this.paymentRepository.findOne(vid);
     }
 }

@@ -1,7 +1,8 @@
 import { Payment } from "@entities/Payment";
 import { Visit } from "@entities/Visit";
-import { CREATED, FORBIDDEN } from "http-status-codes";
+import { CREATED, FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";
+import { ResponsePaymentPriceDto } from "./dtos";
 import { IPaymentRepository } from "./interface/IPaymentRepository";
 
 @Service()
@@ -29,10 +30,30 @@ export class PaymentRepository implements IPaymentRepository {
         const visit = await Visit.findOne({ id: Number(vid) });
         const result = await Payment.findOne({ visit: visit });
 
-        console.log(result);
-
         if (!result) return false;
         return true;
+    }
+
+    async findOne(vid: number): Promise<Mutation<ResponsePaymentPriceDto>> {
+        const result = await Payment.findOne({
+            where: {
+                visit: {
+                    id: vid,
+                },
+            },
+            relations: ["visit"],
+        });
+
+        console.log(vid);
+        console.log(result);
+        const dto: ResponsePaymentPriceDto = new ResponsePaymentPriceDto(result);
+
+        return {
+            status: OK,
+            success: true,
+            message: "수납 받을 금액 받아오기 성공",
+            result: dto,
+        };
     }
 }
 

@@ -3,7 +3,7 @@ import { BadRequest } from "@errors/errorGenerator";
 import { validate, ValidationError } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
-import { RequestPaymentRegisterDto } from "./dtos";
+import { RequestPaymentRegisterDto, ResponsePaymentPriceDto } from "./dtos";
 import { PaymentService } from "./paymentService";
 
 export class PaymentController {
@@ -37,6 +37,20 @@ export class PaymentController {
             //         },
             //     ],
             // });
+
+            res.status(result.status).send(result);
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    price = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const visit_id = req.query.vid;
+
+            const result: Mutation<ResponsePaymentPriceDto> = await this.paymentService.price(Number(visit_id));
+
+            if (!result.success) throw result;
 
             res.status(result.status).send(result);
         } catch (err) {

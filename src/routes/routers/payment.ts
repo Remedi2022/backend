@@ -8,7 +8,12 @@ class PaymentRouter {
     constructor() {
         this.router;
         this.paymentController = new PaymentController();
+        this.get();
         this.post();
+    }
+
+    get() {
+        this.router.get("/price", this.paymentController.price);
     }
 
     post() {
