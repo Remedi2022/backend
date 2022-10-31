@@ -19,7 +19,7 @@ export class Visit extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: true })
     status: number;
 
     @Column()
@@ -28,25 +28,25 @@ export class Visit extends BaseEntity {
     @Column()
     purpose: string; // 방문목적
 
-    @Column()
+    @Column({ nullable: true })
     purposeDetail: string; // 세부목적
 
-    @Column()
+    @Column({ nullable: true })
     temperature: number;
 
-    @Column()
+    @Column({ nullable: true })
     weight: number;
 
-    @Column()
+    @Column({ nullable: true })
     height: number;
 
-    @Column()
+    @Column({ nullable: true })
     hBlood: number;
 
-    @Column()
+    @Column({ nullable: true })
     lBlood: number;
 
-    @Column()
+    @Column({ nullable: true })
     bloodSugar: number;
 
     @ManyToOne(type => Patient, patient => patient.visit, { nullable: true, onDelete: "CASCADE" })
