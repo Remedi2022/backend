@@ -1,4 +1,9 @@
+import { Visit } from "@entities/Visit";
+import { AuthRepository } from "components/Auth/authRepository";
+import { ChartRepository } from "components/Chart/chartRepository";
+import { PatientRepository } from "components/Patient/patientRepository";
 import { FORBIDDEN, OK } from "http-status-codes";
+import patient from "routes/routers/patient";
 import { Service } from "typedi";
 import { ResponseMDListDto } from "./dtos";
 import { IMDService } from "./interface/IMDService";

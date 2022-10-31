@@ -78,7 +78,7 @@ export class VisitService implements IVisitService {
     async register(dto: RequestVisitRegisterDto): Promise<Mutation<void>> {
         try {
             const patient = await this.patientRepository.findById(dto.pid);
-            const doctor = await this.doctorRepository.findByid(dto.did);
+            const doctor = await this.doctorRepository.findById(dto.did);
 
             if (!patient) {
                 throw new Conflict("해당 patient_id 와 맞는 환자 정보가 없습니다.");

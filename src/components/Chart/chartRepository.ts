@@ -13,6 +13,21 @@ export class ChartRepository implements IChartRepository {
 
         return result;
     }
+
+    async findOneByVid(vid: number): Promise<Chart> {
+        const result: Chart | undefined = await Chart.findOne({
+            where: {
+                visit_id: vid,
+            },
+            relations: ["Visit"],
+        });
+
+        if (!result) {
+            throw Error("진료가 완료되지 않았습니다.");
+        }
+
+        return result;
+    }
 }
 
 export { Chart };

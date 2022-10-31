@@ -1,6 +1,7 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Doctor } from "./Doctor";
+import { MD } from "./MD";
 import { Patient } from "./Patient";
 
 @Entity("visit")
@@ -39,10 +40,15 @@ export class Visit extends BaseEntity {
     bloodSugar: number;
 
     @ManyToOne(type => Patient, patient => patient.visit, { nullable: true, onDelete: "CASCADE" })
+    @JoinColumn()
     patient: Patient;
 
     @ManyToOne(type => Doctor, doctor => doctor.visit, { nullable: true, onDelete: "CASCADE" })
+    @JoinColumn()
     doctor: Doctor;
+
+    @OneToMany(type => MD, md => md.visit)
+    md!: MD[];
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;

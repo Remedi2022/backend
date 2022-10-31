@@ -47,10 +47,21 @@ export class AuthRepository implements IAuthRepository {
         return result;
     }
 
-    async findByid(id: string): Promise<Doctor | undefined> {
+    async findById(id: string): Promise<Doctor | undefined> {
         const result = await Doctor.findOne({ id });
 
-        if (!result) return undefined;
+        if (!result) throw Error;
+        return result;
+    }
+
+    async findOneByVid(vid: number): Promise<Doctor | undefined> {
+        const result = await Doctor.findOne({
+            where: {
+                visit_id: vid,
+            },
+        });
+
+        if (!result) throw Error;
         return result;
     }
 }

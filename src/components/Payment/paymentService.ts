@@ -29,11 +29,14 @@ export class PaymentService implements IPaymentService {
             const authRepository = new AuthRepository();
             const mdRepository = new MDRepository();
             const chartRepository = new ChartRepository();
-            const paymentRepository = new PaymentRepository();
-            const DoctorInfo = await authRepository.findOneByemail("1");
-            const MDInfo = await mdRepository.findOneById(1);
-            const ChartInfo = await chartRepository.findall("2");
-            const PaymentInfo = await paymentRepository.findByvid("1");
+
+            const DoctorInfo = await authRepository.findOneByVid(visit.id);
+            const MDInfo = await mdRepository.listByVid(visit.id);
+            const ChartInfo = await chartRepository.findOneByVid(visit.id);
+
+            console.log("DoctorInfo : ", DoctorInfo);
+            console.log("MDInfo : ", MDInfo);
+            console.log("ChartInfo : ", ChartInfo);
 
             const HL7 = "";
 
