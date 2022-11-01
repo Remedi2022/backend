@@ -1,9 +1,8 @@
 import { Payment } from "@entities/Payment";
 import { Visit } from "@entities/Visit";
 import { Conflict } from "@errors/errorGenerator";
-import { AuthRepository } from "components/Auth/authRepository";
-import { ChartRepository } from "components/Chart/chartRepository";
-import { MDRepository } from "components/MD/mdRepository";
+import { producer } from "app";
+import { ChartRepository, PrescribedMD } from "components/Chart/chartRepository";
 import { Service } from "typedi";
 import { RequestPaymentRegisterDto, ResponsePaymentPriceDto } from "./dtos";
 import { IPaymentService } from "./interface/IPaymentService";
@@ -26,15 +25,15 @@ export class PaymentService implements IPaymentService {
                 throw new Error("방문 정보가 없습니다.");
             }
 
-            const mdRepository = new MDRepository();
             const chartRepository = new ChartRepository();
 
-            // const MDInfo = await mdRepository.listByVid(visit.id);
             const chart = await chartRepository.findOneByVid(visit.id);
-            // const PatientInfo = await patientRepository.findById(visit.patient.id);
-
-            console.log("VisitInfo : ", visit.id);
-            console.log("ChartInfo : ", chart);
+            const pmdList = await PrescribedMD.find({
+                where: {
+                    chart: chart.id,
+                },
+                relations: ["chart", "md"],
+            });
 
             const doctor = visit.doctor;
             const patient = visit.patient;
@@ -49,16 +48,59 @@ export class PaymentService implements IPaymentService {
 
             const createdTime = `${YYYY}${MM}${DD}${HH}${mm}${SS}`;
 
-            const HL7 = "";
+            const ivcTotalBill = pmdList.reduce((acc, cur, idx) => {
+                return (acc += cur.mdAmountPerUnit * cur.mdCountPerDay * cur.md.price);
+            }, 0);
+            const pssTotalBill = pmdList.reduce((acc, cur, idx) => {
+                return (acc += cur.mdAmountPerUnit * cur.mdCountPerDay * cur.md.price);
+            }, 0);
+            const psgTotalBill = pmdList.reduce((acc, cur, idx) => {
+                return (acc += cur.mdAmountPerUnit * cur.mdCountPerDay * cur.md.price);
+            }, 0);
+
+            let HL7 = "";
 
             const MSH = `MSH|^~.&|||||${createdTime}||EHC^E01^EHC_E01|1817457|P|2.6||||||||||||||`;
-            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}| ||REMEDI^12345|NHLS||||||||${doctor.name}||||||AMB||||||`;
-            const PSS = `PSS|1||1| |진료비 세부산정내역|`;
-            const PSG = `PSG|1||1|Y| |진찰료|`;
-            const PSL = `PSL|1||1|||P|md.kcd||md.item_name|${chart.date}|||md.price|chart.prescribedMD|?|req.individual_copayment|||||Y|||||||2||||||||||||||||||||chart.prescribedMD|`;
+            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}||REMEDI^12345|NHLS||||||||${doctor.name}||||||AMB||||||`;
+            const PSS = `PSS|1||1|${pssTotalBill}|진료비 세부산정내역|`;
+            const PSG = `PSG|1||1|Y|${psgTotalBill}|진찰료|`;
+            // let PSL = "";
+            const PSL = pmdList.map(pmd => {
+                return `PSL|1||1|||P|${pmd.md.kcd}||${pmd.md.itemName}|${chart.date}|||${pmd.md.price}|${
+                    pmd.mdCountPerDay
+                }|${pmd.md.price * pmd.mdCountPerDay}|${req.individual_copayment}|||||Y|||||||2||||||||||||||||||||${
+                    pmd.mdAdministrationDay
+                }|`;
+            });
             const PID = `PID|||${patient.id}^^^^PI~${patient.rrn}^^^SS||${patient.name}|`;
-            const IN1 = `IN1|`;
-            const IN2 = `IN2|`;
+            const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${req.individual_copayment}|||||||||||||||||||`;
+            const IN2 = `IN2|||||||||||||||||||||||||||||${req.nhis_copayment}||||||||||||||||||||||||`;
+
+            // console.log(MSH);
+            // console.log(IVC);
+            // console.log(PSS);
+            // console.log(PSG);
+            // console.log(PSL);
+            // console.log(PID);
+            // console.log(IN1);
+            // console.log(IN2);
+
+            HL7 = HL7 + MSH + IVC + PSS + PSG;
+            for (const psl of PSL) {
+                HL7 += HL7 + psl;
+            }
+            HL7 = HL7 + PID + IN1 + IN2;
+            // console.log(HL7);
+
+            const kafkaMessage = HL7;
+            await producer.send({
+                topic: "REMEDI-kafka",
+                messages: [
+                    {
+                        value: kafkaMessage,
+                    },
+                ],
+            });
 
             const payment = new Payment();
 

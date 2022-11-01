@@ -28,16 +28,6 @@ export class PaymentController {
 
             if (!result.success) throw result;
 
-            // const kafkaMessage = JSON.stringify(req.body);
-            // await producer.send({
-            //     topic: "REMEDI-kafka-test",
-            //     messages: [
-            //         {
-            //             value: kafkaMessage,
-            //         },
-            //     ],
-            // });
-
             res.status(result.status).send(result);
         } catch (err) {
             next(err);
