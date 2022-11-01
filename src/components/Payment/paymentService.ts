@@ -19,7 +19,7 @@ export class PaymentService implements IPaymentService {
                 throw new Conflict("이미 결제 완료된 수납 건 입니다.");
             }
 
-            const visit = await Visit.findOne({ where: { id: 1 }, relations: ["doctor", "patient"] });
+            const visit = await Visit.findOne({ where: { id: req.vid }, relations: ["doctor", "patient"] });
             if (!visit) {
                 throw new Error("방문 정보가 없습니다.");
             }
