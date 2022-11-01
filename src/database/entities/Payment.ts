@@ -1,5 +1,6 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
+import { Chart } from "./Chart";
 import { Visit } from "./Visit";
 
 @Entity("payment")
@@ -30,6 +31,10 @@ export class Payment extends BaseEntity {
     @OneToOne(() => Visit)
     @JoinColumn()
     visit: Visit;
+
+    @OneToOne(() => Chart)
+    @JoinColumn()
+    chart: Chart;
 
     readonly date: BaseTimeEntity;
 }

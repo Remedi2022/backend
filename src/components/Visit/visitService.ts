@@ -90,6 +90,7 @@ export class VisitService implements IVisitService {
             visit.patient = patient;
             visit.doctor = doctor;
             visit.status = 1;
+            visit.revisit = dto.revisit;
             visit.benefitType = dto.benefit_type;
             visit.purpose = dto.purpose;
             visit.purposeDetail = dto.purpose_detail;

@@ -1,4 +1,3 @@
-import md from "routes/routers/md";
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Chart } from "./Chart";

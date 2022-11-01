@@ -1,6 +1,7 @@
 export class RequestVisitRegisterDto {
     readonly pid: number;
     readonly did: string;
+    readonly revisit: number;
     readonly benefit_type: string;
     readonly purpose: string;
     readonly purpose_detail: string;
@@ -14,6 +15,7 @@ export class RequestVisitRegisterDto {
     constructor(body: any) {
         this.pid = Number(body.patient_id);
         this.did = body.doctor_id;
+        this.revisit = body.revisit;
         this.benefit_type = body.benefit_type;
         this.purpose = body.purpose;
         this.purpose_detail = body.purpose_detail;
