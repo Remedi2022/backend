@@ -4,6 +4,8 @@ import { Service } from "typedi";
 import { Doctor } from "@entities/Doctor";
 import { IAuthRepository } from "./interface/IAuthRepository";
 import { ResponseSignUpDto } from "./dtos";
+import { Conflict } from "@errors/errorGenerator";
+import { Visit } from "@entities/Visit";
 
 @Service()
 export class AuthRepository implements IAuthRepository {
@@ -54,7 +56,7 @@ export class AuthRepository implements IAuthRepository {
         return result;
     }
 
-    async findOneByVid(vid: number): Promise<Doctor | undefined> {
+    async findOneByVid(vid: number): Promise<Doctor> {
         const result = await Doctor.findOne({
             where: {
                 visit_id: vid,
@@ -62,6 +64,20 @@ export class AuthRepository implements IAuthRepository {
         });
 
         if (!result) throw Error;
+        return result;
+    }
+
+    async findByVisit(visit: Visit): Promise<Doctor> {
+        const result = await Doctor.findOne({
+            where: {
+                visit,
+            },
+        });
+
+        if (!result) {
+            throw new Conflict("해당 의사 정보가 없습니다.");
+        }
+
         return result;
     }
 }

@@ -1,49 +1,48 @@
-import { Payment } from "@entities/Payment";
+import { Doctor } from "@entities/Doctor";
+import { Patient } from "@entities/Patient";
 import { Visit } from "@entities/Visit";
 import { Conflict } from "@errors/errorGenerator";
-import { ChartRepository, PrescribedMD } from "components/Chart/chartRepository";
+import { AuthRepository } from "components/Auth/authRepository";
+import { Chart, ChartRepository } from "components/Chart/chartRepository";
+import { PatientRepository } from "components/Patient/patientRepository";
+import { PrescribedMD, PrescribedMDRepository } from "components/PrescribedMD/prescribedMDRepository";
+import { VisitRepository } from "components/Visit/visitRepository";
 import { Service } from "typedi";
 import { RequestPaymentRegisterDto, ResponsePaymentPriceDto } from "./dtos";
 import { IPaymentService } from "./interface/IPaymentService";
-import { PaymentRepository } from "./paymentRepository";
+import { Payment, PaymentRepository } from "./paymentRepository";
 
 @Service()
 export class PaymentService implements IPaymentService {
-    constructor(private paymentRepository: PaymentRepository) {}
+    constructor(
+        private paymentRepository: PaymentRepository,
+        private visitRepository: VisitRepository,
+        private chartRepository: ChartRepository,
+        private prescribedMDRepository: PrescribedMDRepository,
+        private doctorRepository: AuthRepository,
+        private patientRepository: PatientRepository,
+    ) {}
 
-    async register(req: RequestPaymentRegisterDto): Promise<Mutation<void>> {
+    async register(dto: RequestPaymentRegisterDto): Promise<Mutation<void>> {
         try {
-            const exVID = await this.paymentRepository.findByvid(req.vid);
+            const visit: Visit = await this.visitRepository.findById(dto.vid);
+            const payment: Payment = await this.paymentRepository.findByVid(dto.vid);
+            const chart: Chart = await this.chartRepository.findByVid(dto.vid);
+            const pmdList: PrescribedMD[] = await this.prescribedMDRepository.findByChartId(chart.id);
+            const doctor: Doctor = visit.doctor;
+            const patient: Patient = await visit.patient;
 
-            if (exVID) {
+            if (payment.paymentType) {
                 throw new Conflict("이미 결제 완료된 수납 건 입니다.");
             }
 
-            const visit = await Visit.findOne({ where: { id: req.vid }, relations: ["doctor", "patient"] });
-            if (!visit) {
-                throw new Error("방문 정보가 없습니다.");
-            }
-
-            const chartRepository = new ChartRepository();
-
-            const chart = await chartRepository.findOneByVid(visit.id);
-            const pmdList = await PrescribedMD.find({
-                where: {
-                    chart: chart.id,
-                },
-                relations: ["chart", "md"],
-            });
-
-            const doctor = visit.doctor;
-            const patient = visit.patient;
-
-            const DT = new Date();
-            const YYYY = DT.getFullYear();
-            const MM = DT.getMonth() + 1;
-            const DD = DT.getDate();
-            const HH = DT.getHours();
-            const mm = DT.getMinutes();
-            const SS = DT.getSeconds();
+            const DT: Date = new Date();
+            const YYYY: number = DT.getFullYear();
+            const MM: number = DT.getMonth() + 1;
+            const DD: number = DT.getDate();
+            const HH: number = DT.getHours();
+            const mm: number = DT.getMinutes();
+            const SS: number = DT.getSeconds();
 
             const createdTime = `${YYYY}${MM}${DD}${HH}${mm}${SS}`;
 
@@ -67,13 +66,13 @@ export class PaymentService implements IPaymentService {
             const PSL = pmdList.map(pmd => {
                 return `PSL|1||1|||P|${pmd.md.kcd}||${pmd.md.itemName}|${chart.date}|||${pmd.md.price}|${
                     pmd.mdCountPerDay
-                }|${pmd.md.price * pmd.mdCountPerDay}|${req.individual_copayment}|||||Y|||||||2||||||||||||||||||||${
+                }|${pmd.md.price * pmd.mdCountPerDay}|${payment.individualCopayment}|||||Y|||||||2||||||||||||||||||||${
                     pmd.mdAdministrationDay
                 }|`;
             });
             const PID = `PID|||${patient.id}^^^^PI~${patient.rrn}^^^SS||${patient.name}|`;
-            const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${req.individual_copayment}|||||||||||||||||||`;
-            const IN2 = `IN2|||||||||||||||||||||||||||||${req.nhis_copayment}||||||||||||||||||||||||`;
+            const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${payment.individualCopayment}|||||||||||||||||||`;
+            const IN2 = `IN2|||||||||||||||||||||||||||||${payment.nhisCopayment}||||||||||||||||||||||||`;
 
             HL7 = HL7 + MSH + IVC + PSS + PSG;
             for (const psl of PSL) {
@@ -92,14 +91,8 @@ export class PaymentService implements IPaymentService {
             //     ],
             // });
 
-            const payment = new Payment();
-
-            payment.visit = visit;
-            payment.individualCopayment = req.individual_copayment;
-            payment.uninsuredPayment = req.uninsured_payment;
-            payment.nhisCopayment = req.nhis_copayment;
-            payment.paidAmount = req.paid_amount;
-            payment.paymentType = req.payment_type;
+            payment.paidAmount = dto.paid_amount;
+            payment.paymentType = dto.payment_type;
 
             return this.paymentRepository.save(payment);
         } catch (err: any) {
