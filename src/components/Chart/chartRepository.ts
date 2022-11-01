@@ -5,7 +5,7 @@ import { IChartRepository } from "./interface/IChartRepository";
 
 @Service()
 export class ChartRepository implements IChartRepository {
-    async save(chart: Chart): Promise<Mutation<Chart | void>> {
+    async save(chart: Chart): Promise<Mutation<Chart>> {
         try {
             const result = await Chart.save(chart);
 

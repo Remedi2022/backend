@@ -2,6 +2,8 @@ import { Patient } from "../patientRepository";
 
 export interface IPatientRepository {
     save(patient: Patient): Promise<Mutation<void>>;
-    findByrrn(rrn: string): Promise<boolean>;
-    findByname(patient_name: string): Promise<Patient[]>;
+    findByRRN(rrn: string): Promise<boolean>;
+    findByName(patient_name: string): Promise<Patient[]>;
+    findById(id: number): Promise<Patient>;
+    findByVid(vid: number): Promise<Patient>;
 }

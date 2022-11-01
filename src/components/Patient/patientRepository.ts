@@ -27,14 +27,14 @@ export class PatientRepository implements IPatientRepository {
         }
     }
 
-    async findByrrn(rrn: string): Promise<boolean> {
+    async findByRRN(rrn: string): Promise<boolean> {
         const result = await Patient.findOne({ rrn });
 
         if (!result) return false;
         return true;
     }
 
-    async findByname(patient_name: string): Promise<Patient[]> {
+    async findByName(patient_name: string): Promise<Patient[]> {
         const result: Patient[] = await Patient.find({
             where: {
                 name: Like(`%${patient_name}%`),

@@ -44,8 +44,10 @@ export class AuthRepository implements IAuthRepository {
         return true;
     }
 
-    async findOneByemail(email: string): Promise<Doctor | undefined> {
+    async findOneByemail(email: string): Promise<Doctor> {
         const result = await Doctor.findOne({ email });
+
+        if (!result) throw new Conflict("해당 이메일은 등록되지 않은 아이디입니다");
         return result;
     }
 

@@ -19,8 +19,6 @@ export class PaymentService implements IPaymentService {
         private visitRepository: VisitRepository,
         private chartRepository: ChartRepository,
         private prescribedMDRepository: PrescribedMDRepository,
-        private doctorRepository: AuthRepository,
-        private patientRepository: PatientRepository,
     ) {}
 
     async register(dto: RequestPaymentRegisterDto): Promise<Mutation<void>> {
