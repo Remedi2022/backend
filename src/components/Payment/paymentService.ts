@@ -1,7 +1,6 @@
 import { Payment } from "@entities/Payment";
 import { Visit } from "@entities/Visit";
 import { Conflict } from "@errors/errorGenerator";
-import { producer } from "app";
 import { ChartRepository, PrescribedMD } from "components/Chart/chartRepository";
 import { Service } from "typedi";
 import { RequestPaymentRegisterDto, ResponsePaymentPriceDto } from "./dtos";
@@ -76,31 +75,22 @@ export class PaymentService implements IPaymentService {
             const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${req.individual_copayment}|||||||||||||||||||`;
             const IN2 = `IN2|||||||||||||||||||||||||||||${req.nhis_copayment}||||||||||||||||||||||||`;
 
-            // console.log(MSH);
-            // console.log(IVC);
-            // console.log(PSS);
-            // console.log(PSG);
-            // console.log(PSL);
-            // console.log(PID);
-            // console.log(IN1);
-            // console.log(IN2);
-
             HL7 = HL7 + MSH + IVC + PSS + PSG;
             for (const psl of PSL) {
                 HL7 += HL7 + psl;
             }
             HL7 = HL7 + PID + IN1 + IN2;
-            // console.log(HL7);
+            console.log(HL7);
 
-            const kafkaMessage = HL7;
-            await producer.send({
-                topic: "REMEDI-kafka",
-                messages: [
-                    {
-                        value: kafkaMessage,
-                    },
-                ],
-            });
+            // const kafkaMessage = HL7;
+            // await producer.send({
+            //     topic: "REMEDI-kafka",
+            //     messages: [
+            //         {
+            //             value: kafkaMessage,
+            //         },
+            //     ],
+            // });
 
             const payment = new Payment();
 

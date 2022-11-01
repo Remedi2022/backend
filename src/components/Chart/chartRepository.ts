@@ -46,6 +46,7 @@ export class ChartRepository implements IChartRepository {
                 },
             },
         });
+        console.log(result);
 
         if (!result) {
             throw Error("진료가 완료되지 않았습니다.");
