@@ -62,6 +62,8 @@ export class ChartService implements IChartService {
             chart.prescription = dto.prescription;
             chart.consultationFee = dto.consultation_fee;
 
+            console.log(dto);
+
             const chartSaveResult = await this.chartRepository.save(chart);
 
             if (!chartSaveResult.result) throw Error("진료 정보 생성에 실패했습니다.");

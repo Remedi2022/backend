@@ -8,11 +8,6 @@ export class PrescribedMD extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({
-        nullable: false,
-    })
-    mdId: number;
-
     @Column()
     mdAmountPerUnit: number;
 

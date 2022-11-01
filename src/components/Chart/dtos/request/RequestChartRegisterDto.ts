@@ -16,7 +16,7 @@ export class RequestChartRegisterDto {
     }>;
 
     constructor(body: any) {
-        this.vid = body.visit_id;
+        this.vid = Number(body.visit_id);
         this.pid = body.patient_id;
         this.did = body.doctor_id;
         this.examination = body.examination;
