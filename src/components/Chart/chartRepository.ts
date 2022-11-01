@@ -39,6 +39,7 @@ export class ChartRepository implements IChartRepository {
     }
 
     async findOneByVid(vid: number): Promise<Chart> {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", vid);
         const result: Chart | undefined = await Chart.findOne({
             where: {
                 visit: {
@@ -46,7 +47,7 @@ export class ChartRepository implements IChartRepository {
                 },
             },
         });
-        console.log(result);
+        console.log("result@@@@@@@@@@@@@@@@@@@@@@", result);
 
         if (!result) {
             throw Error("진료가 완료되지 않았습니다.");
