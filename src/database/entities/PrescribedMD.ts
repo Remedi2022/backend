@@ -1,7 +1,7 @@
-import chart from "routes/routers/chart";
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Chart } from "./Chart";
+import { MD } from "./MD";
 
 @Entity("prescribedmd")
 export class PrescribedMD extends BaseEntity {
@@ -21,6 +21,9 @@ export class PrescribedMD extends BaseEntity {
 
     @Column()
     mdAdministrationDay: number;
+
+    @ManyToOne(type => MD, md => md.prescribedmd, { nullable: true, onDelete: "CASCADE" })
+    md: MD;
 
     @ManyToOne(type => Chart, chart => chart.prescribedmd, { nullable: true, onDelete: "CASCADE" })
     chart: Chart;

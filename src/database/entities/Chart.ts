@@ -30,7 +30,7 @@ export class Chart extends BaseEntity {
 
     // 1(초진진찰료)->16970로 저장, 2(재진진찰료)->12130로 저장
     @Column()
-    consultation_fee: number;
+    consultationFee: number;
 
     @OneToOne(() => Visit)
     @JoinColumn()

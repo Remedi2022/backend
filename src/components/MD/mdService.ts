@@ -35,9 +35,9 @@ export class MDService implements IMDService {
         }
     }
 
-    async findOneById(id: number): Promise<Mutation<MD>> {
+    async findById(id: number): Promise<Mutation<MD>> {
         try {
-            const md = await this.mdRepository.findOneById(id);
+            const md = await this.mdRepository.findById(id);
             const result: MD = md;
 
             return {

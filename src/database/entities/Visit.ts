@@ -11,7 +11,6 @@ import {
 } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Doctor } from "./Doctor";
-import { MD } from "./MD";
 import { Patient } from "./Patient";
 
 @Entity("visit")

@@ -22,9 +22,9 @@ export class MDController {
         }
     };
 
-    findOneById = async (req: Request, res: Response, next: NextFunction) => {
+    findById = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const result: Mutation<MD> = await this.mdService.findOneById(parseInt(req.params.id));
+            const result: Mutation<MD> = await this.mdService.findById(parseInt(req.params.id));
 
             if (!result.status) throw result;
 

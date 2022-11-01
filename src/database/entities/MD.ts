@@ -1,7 +1,6 @@
-import patient from "routes/routers/patient";
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
-import { Visit } from "./Visit";
+import { PrescribedMD } from "./PrescribedMD";
 
 @Entity("md")
 export class MD extends BaseEntity {
@@ -27,6 +26,9 @@ export class MD extends BaseEntity {
 
     @Column()
     kcd: string;
+
+    @OneToMany(type => PrescribedMD, prescribedmd => prescribedmd.md)
+    prescribedmd: PrescribedMD[];
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;

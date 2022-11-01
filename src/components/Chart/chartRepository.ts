@@ -1,4 +1,5 @@
 import { Chart } from "@entities/Chart";
+import { PrescribedMD } from "@entities/PrescribedMD";
 import { CREATED, FORBIDDEN } from "http-status-codes";
 import { Service } from "typedi";
 import { IChartRepository } from "./interface/IChartRepository";
@@ -54,4 +55,4 @@ export class ChartRepository implements IChartRepository {
     }
 }
 
-export { Chart };
+export { Chart, PrescribedMD };
