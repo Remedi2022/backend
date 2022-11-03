@@ -1,4 +1,5 @@
 import { Patient } from "@entities/Patient";
+import { Conflict } from "@errors/errorGenerator";
 import { CREATED, FORBIDDEN } from "http-status-codes";
 import { Service } from "typedi";
 import { Like } from "typeorm";
@@ -26,14 +27,14 @@ export class PatientRepository implements IPatientRepository {
         }
     }
 
-    async findByrrn(rrn: string): Promise<boolean> {
+    async findByRRN(rrn: string): Promise<boolean> {
         const result = await Patient.findOne({ rrn });
 
         if (!result) return false;
         return true;
     }
 
-    async findByname(patient_name: string): Promise<Patient[]> {
+    async findByName(patient_name: string): Promise<Patient[]> {
         const result: Patient[] = await Patient.find({
             where: {
                 name: Like(`%${patient_name}%`),
@@ -51,6 +52,22 @@ export class PatientRepository implements IPatientRepository {
 
         if (!result) {
             throw Error("존재하지 않는 환자 입니다.");
+        }
+
+        return result;
+    }
+
+    async findByVid(vid: number): Promise<Patient> {
+        const result = await Patient.findOne({
+            where: {
+                visit: {
+                    id: vid,
+                },
+            },
+        });
+
+        if (!result) {
+            throw new Conflict("진료가 완료되지 않았습니다.");
         }
 
         return result;

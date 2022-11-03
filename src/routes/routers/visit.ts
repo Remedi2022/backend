@@ -16,7 +16,7 @@ class VisitRouter {
         this.router.get("/list", this.visitController.list);
         this.router.get("/vital", this.visitController.vital);
         this.router.get("/record", this.visitController.record);
-        // this.router.get("/reception", this.visitController.reception);
+        //this.router.get("/reception", this.visitController.reception);
     }
 
     post() {

@@ -1,6 +1,6 @@
 import { Patient } from "@entities/Patient";
 import { Visit } from "@entities/Visit";
-import { BadRequest } from "@errors/errorGenerator";
+import { BadRequest, Conflict } from "@errors/errorGenerator";
 import { CREATED, FORBIDDEN, NO_CONTENT, OK } from "http-status-codes";
 import { Service } from "typedi";
 import { LessThan } from "typeorm";
@@ -76,10 +76,13 @@ export class VisitRepository implements IVisitRepository {
     }
 
     async findById(id: number): Promise<Visit> {
-        const result = await Visit.findOne({ id });
+        const result = await Visit.findOne({
+            where: { id },
+            relations: ["doctor", "patient"],
+        });
 
         if (!result) {
-            throw Error("방문 정보가 없습니다.");
+            throw new Conflict("방문 기록이 없습니다.");
         }
 
         return result;

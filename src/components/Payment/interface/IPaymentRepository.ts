@@ -1,6 +1,8 @@
+import { ResponsePaymentPriceDto } from "../dtos";
 import { Payment } from "../paymentRepository";
 
 export interface IPaymentRepository {
-    save(patient: Payment): Promise<Mutation<void>>;
-    findByvid(rrn: string): Promise<boolean>;
+    save(payment: Payment): Promise<Mutation<void>>;
+    findByVid(vid: number): Promise<Payment>;
+    findOne(vid: number): Promise<Mutation<ResponsePaymentPriceDto>>;
 }

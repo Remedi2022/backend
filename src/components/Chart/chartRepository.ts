@@ -1,12 +1,11 @@
 import { Chart } from "@entities/Chart";
-import { PrescribedMD } from "@entities/PrescribedMD";
 import { CREATED, FORBIDDEN } from "http-status-codes";
 import { Service } from "typedi";
 import { IChartRepository } from "./interface/IChartRepository";
 
 @Service()
 export class ChartRepository implements IChartRepository {
-    async save(chart: Chart): Promise<Mutation<Chart | void>> {
+    async save(chart: Chart): Promise<Mutation<Chart>> {
         try {
             const result = await Chart.save(chart);
 
@@ -38,16 +37,14 @@ export class ChartRepository implements IChartRepository {
         return result;
     }
 
-    async findOneByVid(vid: number): Promise<Chart> {
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", vid);
-        const result: Chart | undefined = await Chart.findOne({
+    async findByVid(vid: number): Promise<Chart> {
+        const result = await Chart.findOne({
             where: {
                 visit: {
                     id: vid,
                 },
             },
         });
-        console.log("result@@@@@@@@@@@@@@@@@@@@@@", result);
 
         if (!result) {
             throw Error("진료가 완료되지 않았습니다.");
@@ -57,4 +54,4 @@ export class ChartRepository implements IChartRepository {
     }
 }
 
-export { Chart, PrescribedMD };
+export { Chart };

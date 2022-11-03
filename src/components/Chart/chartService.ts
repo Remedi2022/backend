@@ -1,7 +1,10 @@
+import { Payment } from "@entities/Payment";
 import { PrescribedMD } from "@entities/PrescribedMD";
+import { BadRequest } from "@errors/errorGenerator";
 import { AuthRepository, Doctor } from "components/Auth/authRepository";
 import { MD, MDRepository } from "components/MD/mdRepository";
 import { Patient, PatientRepository } from "components/Patient/patientRepository";
+import { PaymentRepository } from "components/Payment/paymentRepository";
 import { Visit, VisitRepository } from "components/Visit/visitRepository";
 import { CREATED, FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";
@@ -18,6 +21,7 @@ export class ChartService implements IChartService {
         private patientRepository: PatientRepository,
         private doctorRepository: AuthRepository,
         private mdRepository: MDRepository,
+        private paymentRepository: PaymentRepository,
     ) {}
 
     async list(pid: string): Promise<Mutation<ResponseChartListDto[]>> {
@@ -49,6 +53,10 @@ export class ChartService implements IChartService {
 
     async register(dto: RequestChartRegisterDto): Promise<Mutation<void>> {
         try {
+            let individual_copayment = 0;
+            let uninsured_payment = 0;
+            let nhis_copayment = 0;
+
             const visit: Visit = await this.visitRepository.findById(dto.vid);
             const patient: Patient = await this.patientRepository.findById(dto.pid);
             const doctor: Doctor = await this.doctorRepository.findById(dto.did);
@@ -61,8 +69,6 @@ export class ChartService implements IChartService {
             chart.diagnosis = dto.diagnosis;
             chart.prescription = dto.prescription;
             chart.consultationFee = dto.consultation_fee;
-
-            console.log(dto);
 
             const chartSaveResult = await this.chartRepository.save(chart);
 
@@ -78,8 +84,30 @@ export class ChartService implements IChartService {
                 pMD.mdAdministrationDay = pmd.md_administration_day;
                 pMD.chart = chartSaveResult.result;
 
+                uninsured_payment += md.price;
+
                 const result = await PrescribedMD.save(pMD);
             }
+
+            if (visit.revisit == 0) {
+                individual_copayment = 5091;
+                nhis_copayment = 11879;
+            } else if (visit.revisit == 1) {
+                individual_copayment = 3639;
+                nhis_copayment = 8491;
+            } else {
+                throw new BadRequest("초진/재진 여부를 정확하게 기입해주세요");
+            }
+
+            const payment: Payment = new Payment();
+
+            payment.individualCopayment = individual_copayment;
+            payment.uninsuredPayment = uninsured_payment;
+            payment.nhisCopayment = nhis_copayment;
+            payment.visit = visit;
+            payment.chart = chart;
+
+            await this.paymentRepository.save(payment);
 
             return {
                 status: CREATED,

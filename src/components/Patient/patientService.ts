@@ -13,7 +13,7 @@ export class PatientService implements IPatientService {
 
     async register(req: RequestPatientRegisterDto): Promise<Mutation<void>> {
         try {
-            const exRRN = await this.patientRepository.findByrrn(req.rrn);
+            const exRRN = await this.patientRepository.findByRRN(req.rrn);
 
             if (exRRN) {
                 throw new Conflict("이미 같은 주민번호가 등록되어 있습니다");
@@ -46,7 +46,7 @@ export class PatientService implements IPatientService {
 
     async search(patient_name: string): Promise<Mutation<ResponseSearchPatientsDto[]>> {
         try {
-            const patients = await this.patientRepository.findByname(patient_name);
+            const patients = await this.patientRepository.findByName(patient_name);
             const result: ResponseSearchPatientsDto[] = [];
 
             for (const patient of patients) {
