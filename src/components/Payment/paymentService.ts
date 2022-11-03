@@ -58,6 +58,17 @@ export class PaymentService implements IPaymentService {
             }, 0);
 
             let HL7 = "";
+            console.log(chart.date);
+
+            const chartDT = chart.date.createdAt;
+            const chartYYYY = chartDT.getFullYear();
+            const chartMM = chartDT.getMonth() + 1;
+            const chartDD = chartDT.getDate();
+            const chartHH = chartDT.getHours();
+            const chartmm = chartDT.getMinutes();
+            const chartSS = chartDT.getSeconds();
+
+            const chartCreatedTime = `${chartYYYY}${chartMM}${chartDD}${chartHH}${chartmm}${chartSS}`;
 
             const MSH = `MSH|^~.&|||||${createdTime}||EHC^E01^EHC_E01|1817457|P|2.6||||||||||||||`;
             const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}||REMEDI^12345|NHLS||||||||${doctor.name}||||||AMB||||||`;
@@ -65,7 +76,7 @@ export class PaymentService implements IPaymentService {
             const PSG = `PSG|1||1|Y|${psgTotalBill}|진찰료|`;
             // let PSL = "";
             const PSL = pmdList.map(pmd => {
-                return `PSL|1||1|||P|${pmd.md.kcd}||${pmd.md.itemName}|${chart.date}|||${pmd.md.price}|${
+                return `PSL|1||1|||P|${pmd.md.kcd}||${pmd.md.itemName}|${chartCreatedTime}|||${pmd.md.price}|${
                     pmd.mdCountPerDay
                 }|${pmd.md.price * pmd.mdCountPerDay}|${req.individual_copayment}|||||Y|||||||2||||||||||||||||||||${
                     pmd.mdAdministrationDay
@@ -77,7 +88,7 @@ export class PaymentService implements IPaymentService {
 
             HL7 = HL7 + MSH + IVC + PSS + PSG;
             for (const psl of PSL) {
-                HL7 += HL7 + psl;
+                HL7 += psl;
             }
             HL7 = HL7 + PID + IN1 + IN2;
             console.log(HL7);
