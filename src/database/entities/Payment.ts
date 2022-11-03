@@ -21,11 +21,11 @@ export class Payment extends BaseEntity {
     nhisCopayment: number;
 
     // 45000
-    @Column()
+    @Column({ nullable: true })
     paidAmount: number;
 
     // 카드 등
-    @Column()
+    @Column({ nullable: true })
     paymentType: string;
 
     @OneToOne(() => Visit)
