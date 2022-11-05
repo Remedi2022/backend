@@ -3,6 +3,7 @@ import { validate, ValidationError } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
 import { RequestPatientRegisterDto, ResponseSearchPatientsDto } from "./dtos";
+import { ResponseReceptionDto } from "./dtos/response/ResponseReceptionDto";
 import { PatientService } from "./patientService";
 
 export class PatientController {
@@ -52,6 +53,20 @@ export class PatientController {
             const patient_id: number = req.body.pid as number;
 
             const result: Mutation<ResponseSearchPatientsDto> = await this.patientService.find(patient_id);
+
+            if (!result.success) throw result;
+
+            res.status(result.status).send(result);
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    reception = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const pid: number = parseInt(req.query.pid as string);
+
+            const result: Mutation<ResponseReceptionDto> = await this.patientService.reception(pid);
 
             if (!result.success) throw result;
 

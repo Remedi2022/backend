@@ -4,6 +4,7 @@ import { Service } from "typedi";
 import { ResponseSearchPatientsDto } from "./dtos";
 import { RequestPatientRegisterDto } from "./dtos/request/RequestPatientRegisterDto";
 import { ResponsePatientDto } from "./dtos/response/ResponsePatientDto";
+import { ResponseReceptionDto } from "./dtos/response/ResponseReceptionDto";
 import { IPatientService } from "./interface/IPatientService";
 import { Patient, PatientRepository } from "./patientRepository";
 
@@ -75,6 +76,27 @@ export class PatientService implements IPatientService {
         try {
             const patient = await this.patientRepository.findById(patient_id);
             const result: ResponsePatientDto = new ResponsePatientDto(patient);
+
+            return {
+                status: OK,
+                success: true,
+                message: "환자 검색 성공",
+                result,
+            };
+        } catch (err: any) {
+            return {
+                status: 400,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
+    async reception(patient_id: number): Promise<Mutation<ResponseReceptionDto>> {
+        try {
+            const patient = await this.patientRepository.findById(patient_id);
+            const result: ResponseReceptionDto = new ResponseReceptionDto(patient);
 
             return {
                 status: OK,
