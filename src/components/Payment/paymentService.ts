@@ -127,8 +127,12 @@ export class PaymentService implements IPaymentService {
             //     ],
             // });
 
+            visit.status = 4;
+
             payment.paidAmount = dto.paid_amount;
             payment.paymentType = dto.payment_type;
+
+            this.visitRepository.save(visit);
 
             return this.paymentRepository.save(payment);
         } catch (err: any) {
