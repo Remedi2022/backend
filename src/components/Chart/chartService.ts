@@ -61,6 +61,8 @@ export class ChartService implements IChartService {
             const patient: Patient = await this.patientRepository.findById(dto.pid);
             const doctor: Doctor = await this.doctorRepository.findById(dto.did);
 
+            visit.status = 3;
+
             const chart: Chart = new Chart();
             chart.visit = visit;
             chart.patient = patient;
@@ -107,6 +109,7 @@ export class ChartService implements IChartService {
             payment.visit = visit;
             payment.chart = chart;
 
+            await this.visitRepository.save(visit);
             await this.paymentRepository.save(payment);
 
             return {
