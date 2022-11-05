@@ -1,5 +1,6 @@
 import { MD } from "@entities/MD";
 import { Conflict } from "@errors/errorGenerator";
+import { CREATED, FORBIDDEN } from "http-status-codes";
 import { Service } from "typedi";
 import { Like } from "typeorm";
 import { IMDRepository } from "./interface/IMDRepository";
@@ -51,6 +52,25 @@ export class MDRepository implements IMDRepository {
         });
 
         return result;
+    }
+
+    async save(md: MD): Promise<Mutation<void>> {
+        try {
+            const result = await MD.save(md);
+
+            return {
+                status: CREATED,
+                success: true,
+                message: "MD 등록 성공",
+            };
+        } catch (err: any) {
+            return {
+                status: FORBIDDEN,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
     }
 }
 
