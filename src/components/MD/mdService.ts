@@ -55,4 +55,31 @@ export class MDService implements IMDService {
             };
         }
     }
+
+    async search(patient_name: string): Promise<Mutation<ResponseMDListDto[]>> {
+        try {
+            const mds = await this.mdRepository.findByName(patient_name);
+            const result: ResponseMDListDto[] = [];
+
+            for (const md of mds) {
+                const responseSearchMDListDto: ResponseMDListDto = new ResponseMDListDto(md);
+
+                result.push(responseSearchMDListDto);
+            }
+
+            return {
+                status: OK,
+                success: true,
+                message: "MD 검색 성공",
+                result,
+            };
+        } catch (err: any) {
+            return {
+                status: 400,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
 }

@@ -33,4 +33,19 @@ export class MDController {
             next(err);
         }
     };
+
+    search = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const md_name: string = req.query.name as string;
+
+            const result: Mutation<ResponseMDListDto[]> = await this.mdService.search(md_name);
+
+            if (!result.success) throw result;
+
+            res.status(result.status).send(result);
+        } catch (err) {
+            console.log(1);
+            next(err);
+        }
+    };
 }

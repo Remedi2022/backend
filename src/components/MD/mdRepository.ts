@@ -1,6 +1,7 @@
 import { MD } from "@entities/MD";
 import { Conflict } from "@errors/errorGenerator";
 import { Service } from "typedi";
+import { Like } from "typeorm";
 import { IMDRepository } from "./interface/IMDRepository";
 
 @Service()
@@ -35,6 +36,19 @@ export class MDRepository implements IMDRepository {
         if (!result) {
             throw new Conflict("등록되지 않은 제품입니다.");
         }
+
+        return result;
+    }
+
+    async findByName(md_name: string): Promise<MD[]> {
+        const result: MD[] = await MD.find({
+            where: {
+                itemName: Like(`%${md_name}%`),
+            },
+            order: {
+                id: "DESC",
+            },
+        });
 
         return result;
     }
