@@ -10,6 +10,7 @@ class VisitRouter {
         this.visitController = new VisitConstroller();
         this.get();
         this.post();
+        this.put();
     }
 
     get() {
@@ -21,6 +22,10 @@ class VisitRouter {
 
     post() {
         this.router.post("/register", this.visitController.register);
+    }
+
+    put() {
+        this.router.put("/status", this.visitController.status);
     }
 }
 

@@ -111,4 +111,21 @@ export class VisitService implements IVisitService {
             };
         }
     }
+
+    async status(vid: number): Promise<Mutation<void>> {
+        try {
+            const visit = await this.visitRepository.findById(vid);
+
+            visit.status = 2;
+
+            return await this.visitRepository.save(visit);
+        } catch (err: any) {
+            return {
+                status: err.status,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
 }
