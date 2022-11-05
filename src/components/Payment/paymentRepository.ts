@@ -1,5 +1,4 @@
 import { Payment } from "@entities/Payment";
-import { Visit } from "@entities/Visit";
 import { Conflict } from "@errors/errorGenerator";
 import { CREATED, FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";
@@ -51,8 +50,6 @@ export class PaymentRepository implements IPaymentRepository {
             relations: ["visit"],
         });
 
-        console.log(vid);
-        console.log(result);
         const dto: ResponsePaymentPriceDto = new ResponsePaymentPriceDto(result);
 
         return {

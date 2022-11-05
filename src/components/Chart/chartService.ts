@@ -68,7 +68,7 @@ export class ChartService implements IChartService {
             chart.examination = dto.examination;
             chart.diagnosis = dto.diagnosis;
             chart.prescription = dto.prescription;
-            chart.consultationFee = dto.consultation_fee;
+            chart.consultationFee = dto.consultation_fee; // 16970, 12130
 
             const chartSaveResult = await this.chartRepository.save(chart);
 
@@ -84,7 +84,7 @@ export class ChartService implements IChartService {
                 pMD.mdAdministrationDay = pmd.md_administration_day;
                 pMD.chart = chartSaveResult.result;
 
-                uninsured_payment += md.price;
+                uninsured_payment += md.price * pMD.mdAmountPerUnit * pMD.mdCountPerDay * pMD.mdAdministrationDay;
 
                 const result = await PrescribedMD.save(pMD);
             }
