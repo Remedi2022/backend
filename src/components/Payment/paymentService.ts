@@ -58,7 +58,7 @@ export class PaymentService implements IPaymentService {
             const pssTotalBill = pmdList.reduce((acc, cur, idx) => {
                 return (acc += cur.mdAmountPerUnit * cur.mdCountPerDay * cur.mdAdministrationDay * cur.md.price);
             }, 0);
-            const psgTotalBill = pmdList.reduce((acc, cur, idx) => {
+            const psgMDTotalBill = pmdList.reduce((acc, cur, idx) => {
                 return (acc += cur.mdAmountPerUnit * cur.mdCountPerDay * cur.mdAdministrationDay * cur.md.price);
             }, 0);
 
@@ -83,35 +83,34 @@ export class PaymentService implements IPaymentService {
                 convertString(chartmm) +
                 convertString(chartSS);
 
-            const MSH = `MSH|^~.&|||||${createdTime}||EHC^E01^EHC_E01|1817457|P|2.6||||||||||||||`;
-            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}||REMEDI^12345|NHLS||||||||${doctor.name}||||||AMB||||||`;
-            const PSS = `PSS|1||1|${pssTotalBill}|진료비 세부산정내역|`;
-            const PSG = `PSG|1||1|Y|${psgTotalBill}|진찰료|`;
-            let PSL: Array<string> = [];
+            const MSH = `MSH|^~.&|||||${createdTime}||EHC^E01^EHC_E01|123|P|2.6||||||||||||||`;
+            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}||${doctor.hospitalName}^^^^^^^^^${doctor.businessRegistrationNumber}|SJlife||||||||${doctor.name}||||||AMB||||||`;
+            const PSS = `PSS|1||1|${pssTotalBill}&KRW|진료비 세부산정내역|`;
+
+            const PSGExamination = `PSG|1||1|Y|${chart.consultationFee}&KRW|진찰료|`;
             const PSLExamination = `PSL|1||1|||P|AA||${
-                chart.consultationFee === 1 ? "초진진찰료" : "재진진찰료"
-            }|${chartCreatedTime}|||${chart.consultationFee === 1 ? 16970 : 12130}|1|${
-                chart.consultationFee === 1 ? 16970 : 12130
-            }|${
-                chart.consultationFee === 1 ? Math.floor(16970 * 0.3) : Math.floor(12130 * 0.3)
-            }|||||Y|||||||1||||||||||||||||||||1|`;
+                chart.consultationFee === 16970 ? "초진진찰료" : "재진진찰료"
+            }|${chartCreatedTime}|||${chart.consultationFee}&KRW|1|${chart.consultationFee}&KRW|${Math.floor(
+                chart.consultationFee * 0.3,
+            )}&KRW|||||Y|||||||1||||||||||||||||||||1|`;
+
+            const PSGMD = `PSG|2||2|Y|${psgMDTotalBill}&KRW|투약료|`;
             const PSLMD = pmdList.map((pmd, idx) => {
                 return `PSL|${pmd.md.id}||${idx + 2}|||P|${pmd.md.kcd}||${pmd.md.itemName}|${chartCreatedTime}|||${
                     pmd.md.price
-                }|${pmd.mdCountPerDay}|${
+                }&KRW|${pmd.mdCountPerDay}|${
                     pmd.md.price * pmd.mdAmountPerUnit * pmd.mdCountPerDay * pmd.mdAdministrationDay
-                }|${
+                }&KRW|${
                     pmd.md.price * pmd.mdAmountPerUnit * pmd.mdCountPerDay * pmd.mdAdministrationDay
-                }|||||Y|||||||2||||||||||||||||||||${pmd.mdAdministrationDay}|`;
+                }&KRW|||||Y|||||||2||||||||||||||||||||${pmd.mdAdministrationDay}|`;
             });
-            PSL.push(PSLExamination);
-            PSL = PSL.concat(PSLMD);
+
             const PID = `PID|||${patient.id}^^^^PI~${rrnHypenLess}^^^SS||${patient.name}|`;
             const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${payment.individualCopayment}|||||||||||||||||||`;
             const IN2 = `IN2|||||||||||||||||||||||||||||${payment.nhisCopayment}||||||||||||||||||||||||`;
 
-            HL7 = HL7 + MSH + IVC + PSS + PSG;
-            for (const psl of PSL) {
+            HL7 = HL7 + MSH + IVC + PSS + PSGExamination + PSLExamination + PSGMD;
+            for (const psl of PSLMD) {
                 HL7 += psl;
             }
             HL7 = HL7 + PID + IN1 + IN2;
