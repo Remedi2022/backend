@@ -1,5 +1,6 @@
-import { VisitConstroller } from "components/Visit/visitController";
 import express, { Router } from "express";
+
+import { VisitConstroller } from "components/Visit/visitController";
 
 class VisitRouter {
     public router: Router = express.Router();

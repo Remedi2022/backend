@@ -29,7 +29,7 @@ export class VisitRepository implements IVisitRepository {
         }
     }
 
-    async findall(): Promise<Visit[]> {
+    async findAll(): Promise<Visit[]> {
         const result: Visit[] = await Visit.find({
             where: {
                 status: LessThan(5),
