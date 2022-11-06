@@ -13,7 +13,7 @@ class PatientRouter {
     }
 
     get() {
-        // this.router.get("/search", this.patientController.search);
+        this.router.get("/list", this.patientController.list);
         this.router.get("/reception", this.patientController.reception);
     }
 

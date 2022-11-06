@@ -8,6 +8,11 @@ import { IPatientRepository } from "./interface/IPatientRepository";
 
 @Service()
 export class PatientRepository implements IPatientRepository {
+    async list(): Promise<Patient[]> {
+        const result = await Patient.find();
+        return result;
+    }
+
     async save(patient: Patient): Promise<Mutation<void>> {
         try {
             const result = await Patient.save(patient);

@@ -3,6 +3,7 @@ import { validate, ValidationError } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
 import { RequestPatientRegisterDto, ResponseSearchPatientsDto } from "./dtos";
+import { ResponsePatientDto } from "./dtos/response/ResponsePatientDto";
 import { ResponseReceptionDto } from "./dtos/response/ResponseReceptionDto";
 import { PatientService } from "./patientService";
 
@@ -11,6 +12,18 @@ export class PatientController {
     constructor() {
         this.patientService = Container.get(PatientService);
     }
+
+    list = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const result: Mutation<ResponsePatientDto[]> = await this.patientService.list();
+
+            if (!result.success) throw result;
+
+            res.status(result.status).send(result);
+        } catch (err) {
+            next(err);
+        }
+    };
 
     register = async (req: Request, res: Response, next: NextFunction) => {
         try {

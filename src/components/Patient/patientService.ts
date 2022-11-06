@@ -12,6 +12,33 @@ import { Patient, PatientRepository } from "./patientRepository";
 export class PatientService implements IPatientService {
     constructor(private patientRepository: PatientRepository) {}
 
+    async list(): Promise<Mutation<ResponseSearchPatientsDto[]>> {
+        try {
+            const patients = await this.patientRepository.list();
+            const result: ResponseSearchPatientsDto[] = [];
+
+            for (const patient of patients) {
+                const responseSearchPatient: ResponseSearchPatientsDto = new ResponseSearchPatientsDto(patient);
+
+                result.push(responseSearchPatient);
+            }
+
+            return {
+                status: OK,
+                success: true,
+                message: "환자 목록 조회 성공",
+                result,
+            };
+        } catch (err: any) {
+            return {
+                status: 400,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
     async register(req: RequestPatientRegisterDto): Promise<Mutation<void>> {
         try {
             const exRRN = await this.patientRepository.findByRRN(req.rrn);
