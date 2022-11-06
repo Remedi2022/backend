@@ -1,7 +1,7 @@
 import { Payment } from "@entities/Payment";
 import { Visit } from "@entities/Visit";
 import { Conflict } from "@errors/errorGenerator";
-import { producer } from "app";
+// import { producer } from "app";
 import { ChartRepository, PrescribedMD } from "components/Chart/chartRepository";
 import { Service } from "typedi";
 import { RequestPaymentRegisterDto, ResponsePaymentPriceDto } from "./dtos";
@@ -92,15 +92,15 @@ export class PaymentService implements IPaymentService {
             HL7 = HL7 + PID + IN1 + IN2;
             // console.log(HL7);
 
-            const kafkaMessage = HL7;
-            await producer.send({
-                topic: "REMEDI-kafka",
-                messages: [
-                    {
-                        value: kafkaMessage,
-                    },
-                ],
-            });
+            // const kafkaMessage = HL7;
+            // await producer.send({
+            //     topic: "REMEDI-kafka",
+            //     messages: [
+            //         {
+            //             value: kafkaMessage,
+            //         },
+            //     ],
+            // });
 
             const payment = new Payment();
 
