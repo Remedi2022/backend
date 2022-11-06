@@ -4,6 +4,7 @@ import { Service } from "typedi";
 import { ResponseSearchPatientsDto } from "./dtos";
 import { RequestPatientRegisterDto } from "./dtos/request/RequestPatientRegisterDto";
 import { ResponsePatientDto } from "./dtos/response/ResponsePatientDto";
+import { ResponseReceptionDto } from "./dtos/response/ResponseReceptionDto";
 import { IPatientService } from "./interface/IPatientService";
 import { Patient, PatientRepository } from "./patientRepository";
 
@@ -13,7 +14,7 @@ export class PatientService implements IPatientService {
 
     async register(req: RequestPatientRegisterDto): Promise<Mutation<void>> {
         try {
-            const exRRN = await this.patientRepository.findByrrn(req.rrn);
+            const exRRN = await this.patientRepository.findByRRN(req.rrn);
 
             if (exRRN) {
                 throw new Conflict("이미 같은 주민번호가 등록되어 있습니다");
@@ -46,7 +47,7 @@ export class PatientService implements IPatientService {
 
     async search(patient_name: string): Promise<Mutation<ResponseSearchPatientsDto[]>> {
         try {
-            const patients = await this.patientRepository.findByname(patient_name);
+            const patients = await this.patientRepository.findByName(patient_name);
             const result: ResponseSearchPatientsDto[] = [];
 
             for (const patient of patients) {
@@ -75,6 +76,27 @@ export class PatientService implements IPatientService {
         try {
             const patient = await this.patientRepository.findById(patient_id);
             const result: ResponsePatientDto = new ResponsePatientDto(patient);
+
+            return {
+                status: OK,
+                success: true,
+                message: "환자 검색 성공",
+                result,
+            };
+        } catch (err: any) {
+            return {
+                status: 400,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
+    async reception(patient_id: number): Promise<Mutation<ResponseReceptionDto>> {
+        try {
+            const patient = await this.patientRepository.findById(patient_id);
+            const result: ResponseReceptionDto = new ResponseReceptionDto(patient);
 
             return {
                 status: OK,

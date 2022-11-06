@@ -1,6 +1,6 @@
 import { FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";
-import { ResponseMDListDto } from "./dtos";
+import { RequestMDRegisterDto, ResponseMDListDto } from "./dtos";
 import { IMDService } from "./interface/IMDService";
 import { MD, MDRepository } from "./mdRepository";
 
@@ -49,6 +49,55 @@ export class MDService implements IMDService {
         } catch (err: any) {
             return {
                 status: FORBIDDEN,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
+    async search(patient_name: string): Promise<Mutation<ResponseMDListDto[]>> {
+        try {
+            const mds = await this.mdRepository.findByName(patient_name);
+            const result: ResponseMDListDto[] = [];
+
+            for (const md of mds) {
+                const responseSearchMDListDto: ResponseMDListDto = new ResponseMDListDto(md);
+
+                result.push(responseSearchMDListDto);
+            }
+
+            return {
+                status: OK,
+                success: true,
+                message: "MD 검색 성공",
+                result,
+            };
+        } catch (err: any) {
+            return {
+                status: 400,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
+    async register(dto: RequestMDRegisterDto): Promise<Mutation<void>> {
+        try {
+            const md: MD = new MD();
+
+            md.itemName = dto.itme_name;
+            md.volume = dto.volume;
+            md.unit = dto.unit;
+            md.price = dto.price;
+            md.company = dto.company;
+            md.kcd = dto.kcd;
+
+            return this.mdRepository.save(md);
+        } catch (err: any) {
+            return {
+                status: err.status,
                 success: false,
                 message: err.message,
                 error: err,

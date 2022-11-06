@@ -74,4 +74,18 @@ export class VisitConstroller {
             next(err);
         }
     };
+
+    status = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const vid: number = parseInt(req.body.visit_id as string);
+
+            const result: Mutation<void> = await this.visitService.status(vid);
+
+            if (!result.success) throw result;
+
+            res.status(result.status).send(result);
+        } catch (err) {
+            next(err);
+        }
+    };
 }

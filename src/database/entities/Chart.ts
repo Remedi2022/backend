@@ -11,6 +11,7 @@ import {
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Doctor } from "./Doctor";
 import { Patient } from "./Patient";
+import { Payment } from "./Payment";
 import { PrescribedMD } from "./PrescribedMD";
 import { Visit } from "./Visit";
 
@@ -36,14 +37,15 @@ export class Chart extends BaseEntity {
     @JoinColumn()
     visit: Visit;
 
+    @OneToOne(() => Payment)
+    @JoinColumn()
+    payment: Payment;
+
     @ManyToOne(type => Patient, patient => patient.chart, { nullable: true, onDelete: "CASCADE" })
     patient: Patient;
 
     @ManyToOne(type => Doctor, doctor => doctor.chart, { nullable: true, onDelete: "CASCADE" })
     doctor: Doctor;
-
-    @OneToMany(type => Chart, chart => chart.patient)
-    chart!: Chart[];
 
     @OneToMany(type => PrescribedMD, prescribedmd => prescribedmd.chart, { nullable: true, onDelete: "CASCADE" })
     prescribedmd!: PrescribedMD[];

@@ -8,13 +8,18 @@ class PatientRouter {
     constructor() {
         this.router;
         this.patientController = new PatientController();
+        this.get();
         this.post();
+    }
+
+    get() {
+        // this.router.get("/search", this.patientController.search);
+        this.router.get("/reception", this.patientController.reception);
     }
 
     post() {
         this.router.post("/register", this.patientController.register);
-        this.router.get("/search", this.patientController.search);
-        this.router.post("/", this.patientController.find);
+        this.router.post("/search", this.patientController.find);
     }
 }
 

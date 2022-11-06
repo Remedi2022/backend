@@ -10,7 +10,6 @@ import FileStore from "session-file-store";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 
-import { Kafka } from "kafkajs";
 import { COOKIE_SECRET, PORT } from "./config/env";
 import passportConfig from "./config/passport";
 import ApiRouter from "./routes/index";

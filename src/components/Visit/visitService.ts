@@ -90,6 +90,7 @@ export class VisitService implements IVisitService {
             visit.patient = patient;
             visit.doctor = doctor;
             visit.status = 1;
+            visit.revisit = dto.revisit;
             visit.benefitType = dto.benefit_type;
             visit.purpose = dto.purpose;
             visit.purposeDetail = dto.purpose_detail;
@@ -101,6 +102,23 @@ export class VisitService implements IVisitService {
             visit.bloodSugar = dto.blood_sugar;
 
             return this.visitRepository.save(visit);
+        } catch (err: any) {
+            return {
+                status: err.status,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
+    async status(vid: number): Promise<Mutation<void>> {
+        try {
+            const visit = await this.visitRepository.findById(vid);
+
+            visit.status = 2;
+
+            return await this.visitRepository.save(visit);
         } catch (err: any) {
             return {
                 status: err.status,

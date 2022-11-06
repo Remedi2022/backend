@@ -7,11 +7,14 @@ import {
     ManyToMany,
     ManyToOne,
     OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
+import { Chart } from "./Chart";
 import { Doctor } from "./Doctor";
 import { Patient } from "./Patient";
+import { Payment } from "./Payment";
 
 @Entity("visit")
 export class Visit extends BaseEntity {
@@ -20,6 +23,9 @@ export class Visit extends BaseEntity {
 
     @Column({ nullable: true })
     status: number;
+
+    @Column()
+    revisit: number; // 초진, 재진료 여부
 
     @Column()
     benefitType: string; // 항상 건강보험
@@ -47,6 +53,13 @@ export class Visit extends BaseEntity {
 
     @Column({ nullable: true })
     bloodSugar: number;
+
+    @OneToOne(() => Chart)
+    @JoinColumn()
+    chart: Chart;
+
+    @OneToOne(() => Payment)
+    payment: Payment;
 
     @ManyToOne(type => Patient, patient => patient.visit, { nullable: true, onDelete: "CASCADE" })
     patient: Patient;
