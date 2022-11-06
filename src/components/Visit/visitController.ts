@@ -88,4 +88,8 @@ export class VisitConstroller {
             next(err);
         }
     };
+
+    scheduler = async () => {
+        await this.visitService.scheduler();
+    };
 }

@@ -18,7 +18,7 @@ export class VisitService implements IVisitService {
 
     async list(): Promise<Mutation<ResponseVisitListDto[]>> {
         try {
-            const visits = await this.visitRepository.findall();
+            const visits = await this.visitRepository.findAll();
             const result: ResponseVisitListDto[] = [];
 
             for (const visit of visits) {
@@ -121,6 +121,25 @@ export class VisitService implements IVisitService {
             return await this.visitRepository.save(visit);
         } catch (err: any) {
             return {
+                status: err.status,
+                success: false,
+                message: err.message,
+                error: err,
+            };
+        }
+    }
+
+    async scheduler() {
+        try {
+            const visits = await this.visitRepository.findAll();
+
+            for (const visit of visits) {
+                visit.status = 5;
+
+                await this.visitRepository.save(visit);
+            }
+        } catch (err: any) {
+            throw {
                 status: err.status,
                 success: false,
                 message: err.message,

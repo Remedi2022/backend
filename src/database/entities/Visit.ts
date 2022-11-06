@@ -1,15 +1,4 @@
-import {
-    BaseEntity,
-    Column,
-    Entity,
-    JoinColumn,
-    JoinTable,
-    ManyToMany,
-    ManyToOne,
-    OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseTimeEntity } from "./base/BaseTimeEntity";
 import { Chart } from "./Chart";
 import { Doctor } from "./Doctor";
@@ -36,13 +25,13 @@ export class Visit extends BaseEntity {
     @Column({ nullable: true })
     purposeDetail: string; // 세부목적
 
-    @Column({ nullable: true })
+    @Column({ type: "decimal", precision: 3, scale: 1, nullable: true })
     temperature: number;
 
-    @Column({ nullable: true })
+    @Column({ type: "decimal", precision: 4, scale: 1, nullable: true })
     weight: number;
 
-    @Column({ nullable: true })
+    @Column({ type: "decimal", precision: 4, scale: 1, nullable: true })
     height: number;
 
     @Column({ nullable: true })

@@ -67,13 +67,13 @@ export class PaymentService implements IPaymentService {
             let HL7 = "";
             console.log(chart.date);
 
-            const chartDT = chart.date.createdAt;
-            const chartYYYY = chartDT.getFullYear();
-            const chartMM = chartDT.getMonth() + 1;
-            const chartDD = chartDT.getDate();
-            const chartHH = chartDT.getHours();
-            const chartmm = chartDT.getMinutes();
-            const chartSS = chartDT.getSeconds();
+            const chartDT: Date = chart.date.createdAt;
+            const chartYYYY: number = chartDT.getFullYear();
+            const chartMM: number = chartDT.getMonth() + 1;
+            const chartDD: number = chartDT.getDate();
+            const chartHH: number = chartDT.getHours();
+            const chartmm: number = chartDT.getMinutes();
+            const chartSS: number = chartDT.getSeconds();
 
             const chartCreatedTime =
                 `${chartYYYY}` +

@@ -1,16 +1,20 @@
 import fs from "fs";
 import path from "path";
+import schedule from "node-schedule";
 
 import express, { Router } from "express";
+import { VisitConstroller } from "components/Visit/visitController";
 
 const basename: string = path.basename(__filename);
 const dir: string = path.join(__dirname, "routers");
 
 class ApiRouter {
     public router: Router = express.Router();
+    private visitController: VisitConstroller;
 
     constructor() {
         this.router;
+        this.visitController = new VisitConstroller();
         this.setRouter();
     }
 
@@ -29,6 +33,10 @@ class ApiRouter {
                     }),
                 );
             });
+
+        schedule.scheduleJob({ rule: " * * 0 * * *" }, async () => {
+            this.visitController.scheduler();
+        });
     }
 }
 
