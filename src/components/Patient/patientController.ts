@@ -50,7 +50,7 @@ export class PatientController {
 
     find = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const patient_id: number = req.body.pid as number;
+            const patient_id: number = parseInt(req.query.pid as string);
 
             const result: Mutation<ResponseSearchPatientsDto> = await this.patientService.find(patient_id);
 
