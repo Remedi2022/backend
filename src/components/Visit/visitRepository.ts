@@ -32,7 +32,7 @@ export class VisitRepository implements IVisitRepository {
     async findall(): Promise<Visit[]> {
         const result: Visit[] = await Visit.find({
             where: {
-                status: LessThan(4),
+                status: LessThan(5),
             },
             relations: ["patient"],
         });
