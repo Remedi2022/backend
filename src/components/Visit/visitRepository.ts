@@ -76,7 +76,7 @@ export class VisitRepository implements IVisitRepository {
             },
             relations: ["doctor"],
             order: {
-                id: "ASC",
+                id: "DESC",
             },
         });
     }

@@ -2,6 +2,7 @@ import { Conflict } from "@errors/errorGenerator";
 import { AuthRepository } from "components/Auth/authRepository";
 import { Patient, PatientRepository } from "components/Patient/patientRepository";
 import { FORBIDDEN, OK } from "http-status-codes";
+import visit from "routes/routers/visit";
 import { Service } from "typedi";
 import { ResponseVisitInfoDto, ResponseVisitListDto, ResponseVisitRecordDto } from "./dtos";
 import { RequestVisitRegisterDto } from "./dtos/request/RequestVisitRegisterDto";
@@ -18,7 +19,14 @@ export class VisitService implements IVisitService {
 
     async list(): Promise<Mutation<ResponseVisitListDto[]>> {
         try {
-            const visits = await this.visitRepository.findAll();
+            const visits = await (
+                await this.visitRepository.findAll()
+            ).sort((a, b) => {
+                return a.date.updatedAt.getTime() - b.date.updatedAt.getTime();
+            });
+
+            console.log(visits);
+
             const result: ResponseVisitListDto[] = [];
 
             for (const visit of visits) {

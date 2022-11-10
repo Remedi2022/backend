@@ -114,6 +114,7 @@ export class PaymentService implements IPaymentService {
                 HL7 += psl;
             }
             HL7 = HL7 + PID + IN1 + IN2;
+
             console.log(HL7);
 
             // const kafkaMessage = HL7;
