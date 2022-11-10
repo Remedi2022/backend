@@ -44,6 +44,9 @@ export class VisitRepository implements IVisitRepository {
         const result = await Visit.findOne({
             where: { patient: { id } },
             relations: ["patient"],
+            order: {
+                id: "ASC",
+            },
         });
 
         if (result) {
@@ -72,6 +75,9 @@ export class VisitRepository implements IVisitRepository {
                 },
             },
             relations: ["doctor"],
+            order: {
+                id: "ASC",
+            },
         });
     }
 

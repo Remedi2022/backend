@@ -52,11 +52,13 @@ export class VisitService implements IVisitService {
             const visits = await this.visitRepository.findallBypid(pid);
             const result: ResponseVisitRecordDto[] = [];
 
-            for (const visit of visits) {
+            console.log(visits);
+            visits.forEach(visit => {
+                console.log(visit);
                 const responseVisitRecordDto: ResponseVisitRecordDto = new ResponseVisitRecordDto(visit);
 
                 result.push(responseVisitRecordDto);
-            }
+            });
 
             return {
                 status: OK,
