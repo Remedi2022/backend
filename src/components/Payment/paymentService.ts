@@ -2,6 +2,7 @@ import { Doctor } from "@entities/Doctor";
 import { Patient } from "@entities/Patient";
 import { Visit } from "@entities/Visit";
 import { Conflict } from "@errors/errorGenerator";
+import { producer } from "app";
 import { Chart, ChartRepository } from "components/Chart/chartRepository";
 import { PrescribedMD, PrescribedMDRepository } from "components/PrescribedMD/prescribedMDRepository";
 import { VisitRepository } from "components/Visit/visitRepository";
@@ -131,6 +132,12 @@ export class PaymentService implements IPaymentService {
             payment.paymentType = dto.payment_type;
 
             this.visitRepository.save(visit);
+
+            const result = producer.send({
+                topic: "REMEDI-kafka",
+                messages: [{ value: HL7 }],
+            });
+            console.log("kafka send result : ", result);
 
             return this.paymentRepository.save(payment);
         } catch (err: any) {

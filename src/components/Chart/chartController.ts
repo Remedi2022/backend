@@ -1,6 +1,5 @@
 import { BadRequest } from "@errors/errorGenerator";
 import { validate, ValidationError } from "class-validator";
-import { RequestVisitRegisterDto } from "components/Visit/dtos/request/RequestVisitRegisterDto";
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
 import { ChartService } from "./chartService";
