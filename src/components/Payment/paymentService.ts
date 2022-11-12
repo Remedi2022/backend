@@ -36,11 +36,11 @@ export class PaymentService implements IPaymentService {
             const consultaionFee = chart.consultationFee === 0 ? 16970 : 12130;
 
             const doctorLastName = doctor.name.slice(0, 1);
-            const doctorFirstName = doctor.name.slice(1, -1);
+            const doctorFirstName = doctor.name.slice(1, 0);
             const doctorName = doctorLastName + "^" + doctorFirstName;
 
             const patientLastName = patient.name.slice(0, 1);
-            const patientFirstName = patient.name.slice(1, -1);
+            const patientFirstName = patient.name.slice(1, 0);
             const patientName = patientLastName + "^" + patientFirstName;
 
             const DT: Date = new Date();

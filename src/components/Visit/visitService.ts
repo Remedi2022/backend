@@ -58,7 +58,6 @@ export class VisitService implements IVisitService {
             const result: ResponseVisitRecordDto[] = [];
 
             visits.forEach(visit => {
-                console.log(visit);
                 const responseVisitRecordDto: ResponseVisitRecordDto = new ResponseVisitRecordDto(visit);
 
                 result.push(responseVisitRecordDto);
