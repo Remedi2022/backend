@@ -1,8 +1,7 @@
 import { Conflict } from "@errors/errorGenerator";
 import { AuthRepository } from "components/Auth/authRepository";
-import { Patient, PatientRepository } from "components/Patient/patientRepository";
+import { PatientRepository } from "components/Patient/patientRepository";
 import { FORBIDDEN, OK } from "http-status-codes";
-import visit from "routes/routers/visit";
 import { Service } from "typedi";
 import { ResponseVisitInfoDto, ResponseVisitListDto, ResponseVisitRecordDto } from "./dtos";
 import { RequestVisitRegisterDto } from "./dtos/request/RequestVisitRegisterDto";
@@ -24,8 +23,6 @@ export class VisitService implements IVisitService {
             ).sort((a, b) => {
                 return a.date.updatedAt.getTime() - b.date.updatedAt.getTime();
             });
-
-            console.log(visits);
 
             const result: ResponseVisitListDto[] = [];
 
@@ -60,7 +57,6 @@ export class VisitService implements IVisitService {
             const visits = await this.visitRepository.findallBypid(pid);
             const result: ResponseVisitRecordDto[] = [];
 
-            console.log(visits);
             visits.forEach(visit => {
                 console.log(visit);
                 const responseVisitRecordDto: ResponseVisitRecordDto = new ResponseVisitRecordDto(visit);
