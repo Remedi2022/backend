@@ -44,6 +44,7 @@ export class ChartRepository implements IChartRepository {
                     id: vid,
                 },
             },
+            relations: ["visit", "patient", "doctor"],
         });
 
         if (!result) {

@@ -15,9 +15,9 @@ export class ChartController {
 
     list = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const pid: string = req.query.pid as string;
+            const vid: string = req.query.vid as string;
 
-            const result: Mutation<ResponseChartListDto[]> = await this.chartService.list(pid);
+            const result: Mutation<ResponseChartListDto> = await this.chartService.list(vid);
 
             if (!result.success) throw result;
 

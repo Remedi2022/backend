@@ -24,16 +24,11 @@ export class ChartService implements IChartService {
         private paymentRepository: PaymentRepository,
     ) {}
 
-    async list(pid: string): Promise<Mutation<ResponseChartListDto[]>> {
+    async list(vid: string): Promise<Mutation<ResponseChartListDto>> {
         try {
-            const charts = await this.chartRepository.findall(pid);
-            const result: ResponseChartListDto[] = [];
+            const chart: Chart = await this.chartRepository.findByVid(Number(vid));
 
-            for (const chart of charts) {
-                const responseChartListDto: ResponseChartListDto = new ResponseChartListDto(chart);
-
-                result.push(responseChartListDto);
-            }
+            const result: ResponseChartListDto = new ResponseChartListDto(chart);
 
             return {
                 status: OK,
