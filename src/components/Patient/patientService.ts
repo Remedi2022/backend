@@ -55,7 +55,7 @@ export class PatientService implements IPatientService {
             patient.firstResponder = req.first_responder;
             patient.address = req.address;
 
-            if (parseInt(req.rrn.substr(8, 8)) % 2 == 1) {
+            if (parseInt(req.rrn.substr(7, 1)) % 2 == 1) {
                 patient.gender = "M";
             } else {
                 patient.gender = "F";
