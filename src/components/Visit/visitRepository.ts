@@ -1,10 +1,8 @@
-import { Patient } from "@entities/Patient";
 import { Visit } from "@entities/Visit";
-import { BadRequest, Conflict } from "@errors/errorGenerator";
+import { Conflict } from "@errors/errorGenerator";
 import { CREATED, FORBIDDEN, NO_CONTENT, OK } from "http-status-codes";
 import { Service } from "typedi";
 import { LessThan } from "typeorm";
-import { ResponseVisitRecordDto } from "./dtos";
 import { ResponseVisitInfoDto } from "./dtos/response/ResponseVisitInfoDto";
 import { IVisitRepository } from "./interface/IVisitRepository";
 

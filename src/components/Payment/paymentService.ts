@@ -32,6 +32,16 @@ export class PaymentService implements IPaymentService {
                 throw new Conflict("이미 결제 완료된 수납 건 입니다.");
             }
 
+            const consultaionFee = chart.consultationFee === 0 ? 16970 : 12130;
+
+            const doctorLastName = doctor.name.slice(0, 1);
+            const doctorFirstName = doctor.name.slice(1, -1);
+            const doctorName = doctorLastName + "^" + doctorFirstName;
+
+            const patientLastName = patient.name.slice(0, 1);
+            const patientFirstName = patient.name.slice(1, -1);
+            const patientName = patientLastName + "^" + patientFirstName;
+
             const DT: Date = new Date();
             const YYYY: number = DT.getFullYear();
             const MM: number = DT.getMonth() + 1;
@@ -65,7 +75,6 @@ export class PaymentService implements IPaymentService {
             const rrnHypenLess = patient.rrn.split("-")[0] + patient.rrn.split("-")[1];
 
             let HL7 = "";
-            console.log(chart.date);
 
             const chartDT: Date = chart.date.createdAt;
             const chartYYYY: number = chartDT.getFullYear();
@@ -84,14 +93,14 @@ export class PaymentService implements IPaymentService {
                 convertString(chartSS);
 
             const MSH = `MSH|^~.&|||||${createdTime}||EHC^E01^EHC_E01|123|P|2.6||||||||||||||`;
-            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}||${doctor.hospitalName}^^^^^^^^^${doctor.businessRegistrationNumber}|SJlife||||||||${doctor.name}||||||AMB||||||`;
-            const PSS = `PSS|1||1|${pssTotalBill}&KRW|진료비 세부산정내역|`;
+            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}||${doctor.hospitalName}^^^^^^^^^${doctor.businessRegistrationNumber}|SJlife||||||||^${doctorName}||||||AMB||||||`;
+            const PSS = `PSS|1||1|${pssTotalBill}&KRW|청구서류|`;
 
-            const PSGExamination = `PSG|1||1|Y|${chart.consultationFee}&KRW|진찰료|`;
+            const PSGExamination = `PSG|1||1|Y|${consultaionFee}&KRW|진찰료|`;
             const PSLExamination = `PSL|1||1|||P|AA||${
-                chart.consultationFee === 16970 ? "초진진찰료" : "재진진찰료"
-            }|${chartCreatedTime}|||${chart.consultationFee}&KRW|1|${chart.consultationFee}&KRW|${Math.floor(
-                chart.consultationFee * 0.3,
+                chart.consultationFee === 0 ? "초진진찰료" : "재진진찰료"
+            }|${chartCreatedTime}|||${consultaionFee}&KRW|1|${consultaionFee}&KRW|${Math.floor(
+                consultaionFee * 0.3,
             )}&KRW|||||Y|||||||1||||||||||||||||||||1|`;
 
             const PSGMD = `PSG|2||2|Y|${psgMDTotalBill}&KRW|투약료|`;
@@ -105,7 +114,7 @@ export class PaymentService implements IPaymentService {
                 }&KRW|||||Y|||||||2||||||||||||||||||||${pmd.mdAdministrationDay}|`;
             });
 
-            const PID = `PID|||${patient.id}^^^^PI~${rrnHypenLess}^^^SS||${patient.name}|`;
+            const PID = `PID|||${patient.id}^^^^PI~${rrnHypenLess}^^^^SS||${patientName}|`;
             const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${payment.individualCopayment}|||||||||||||||||||`;
             const IN2 = `IN2|||||||||||||||||||||||||||||${payment.nhisCopayment}||||||||||||||||||||||||`;
 
@@ -116,17 +125,6 @@ export class PaymentService implements IPaymentService {
             HL7 = HL7 + PID + IN1 + IN2;
 
             console.log(HL7);
-
-            // const kafkaMessage = HL7;
-            // await producer.send({
-            //     topic: "REMEDI-kafka",
-            //     messages: [
-            //         {
-            //             value: kafkaMessage,
-            //         },
-            //     ],
-            // });
-
             visit.status = 4;
 
             payment.paidAmount = dto.paid_amount;
