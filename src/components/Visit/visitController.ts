@@ -27,9 +27,9 @@ export class VisitConstroller {
 
     vital = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const pid: string = req.query.pid as string;
+            const vid: number = parseInt(req.query.pid as string);
 
-            const result: Mutation<ResponseVisitInfoDto> = await this.visitService.vital(pid);
+            const result: Mutation<ResponseVisitInfoDto> = await this.visitService.vital(vid);
 
             if (!result.success) throw result;
 

@@ -51,8 +51,8 @@ export class VisitService implements IVisitService {
         }
     }
 
-    async vital(pid: string): Promise<Mutation<ResponseVisitInfoDto>> {
-        return await this.visitRepository.findBypid(pid);
+    async vital(vid: number): Promise<Mutation<ResponseVisitInfoDto>> {
+        return await this.visitRepository.findByPid(vid);
     }
 
     async record(pid: string): Promise<Mutation<ResponseVisitRecordDto[]>> {

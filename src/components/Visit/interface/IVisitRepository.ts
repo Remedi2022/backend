@@ -3,5 +3,5 @@ import { Visit } from "../visitRepository";
 
 export interface IVisitRepository {
     findAll(): Promise<Visit[]>;
-    findBypid(pid: string): Promise<Mutation<ResponseVisitInfoDto>>;
+    findByPid(id: number): Promise<Mutation<ResponseVisitInfoDto>>;
 }
