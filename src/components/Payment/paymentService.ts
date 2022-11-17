@@ -94,10 +94,13 @@ export class PaymentService implements IPaymentService {
                 convertString(chartSS);
 
             const MSH = `MSH|^~.&|||||${createdTime}||EHC^E01^EHC_E01|123|P|2.6||||||||||||||`;
-            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}||${doctor.hospitalName}^^^^^^^^^${doctor.businessRegistrationNumber}|SJlife||||||||^${doctorName}||||||AMB||||||`;
-            const PSS = `PSS|1||1|${pssTotalBill}&KRW|청구서류|`;
+            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}&KRW||${doctor.hospitalName}^^^^^^^^^${doctor.businessRegistrationNumber}|SJlife||||||||^${doctorName}||||||AMB||||||`;
+            const PSS = `PSS|1||1|${pssTotalBill}&KRW|보험사제출서류|`;
 
             const PSGExamination = `PSG|1||1|Y|${consultaionFee}&KRW|진찰료|`;
+            const PID = `PID|||${patient.id}^^^^PI~${rrnHypenLess}^^^^SS||${patientName}|`;
+            const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${payment.individualCopayment}&KRW|||||||||||||||||||`;
+            const IN2 = `IN2|||||||||||||||||||||||||||||MMD^^^AT&${payment.nhisCopayment}&KRW||||||||||||||||||||||||`;
             const PSLExamination = `PSL|1||1|||P|AA||${
                 chart.consultationFee === 0 ? "초진진찰료" : "재진진찰료"
             }|${chartCreatedTime}|||${consultaionFee}&KRW|1|${consultaionFee}&KRW|${Math.floor(
@@ -106,7 +109,7 @@ export class PaymentService implements IPaymentService {
 
             const PSGMD = `PSG|2||2|Y|${psgMDTotalBill}&KRW|투약료|`;
             const PSLMD = pmdList.map((pmd, idx) => {
-                return `PSL|${pmd.md.id}||${idx + 2}|||P|${pmd.md.kcd}||${pmd.md.itemName}|${chartCreatedTime}|||${
+                return `PSL|${pmd.md.id}||${idx + 1}|||P|${pmd.md.kcd}||${pmd.md.itemName}|${chartCreatedTime}|||${
                     pmd.md.price
                 }&KRW|${pmd.mdCountPerDay}|${
                     pmd.md.price * pmd.mdAmountPerUnit * pmd.mdCountPerDay * pmd.mdAdministrationDay
@@ -115,15 +118,10 @@ export class PaymentService implements IPaymentService {
                 }&KRW|||||Y|||||||2||||||||||||||||||||${pmd.mdAdministrationDay}|`;
             });
 
-            const PID = `PID|||${patient.id}^^^^PI~${rrnHypenLess}^^^^SS||${patientName}|`;
-            const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${payment.individualCopayment}|||||||||||||||||||`;
-            const IN2 = `IN2|||||||||||||||||||||||||||||${payment.nhisCopayment}||||||||||||||||||||||||`;
-
-            HL7 = HL7 + MSH + IVC + PSS + PSGExamination + PSLExamination + PSGMD;
+            HL7 = HL7 + MSH + IVC + PSS + PSGExamination + PID + IN1 + IN2 + PSLExamination + PSGMD;
             for (const psl of PSLMD) {
                 HL7 += psl;
             }
-            HL7 = HL7 + PID + IN1 + IN2;
 
             console.log(HL7);
             visit.status = 4;
