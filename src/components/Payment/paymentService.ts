@@ -27,7 +27,7 @@ export class PaymentService implements IPaymentService {
             const chart: Chart = await this.chartRepository.findByVid(dto.vid);
             const pmdList: PrescribedMD[] = await this.prescribedMDRepository.findByChartId(chart.id);
             const doctor: Doctor = visit.doctor;
-            const patient: Patient = await visit.patient;
+            const patient: Patient = visit.patient;
 
             if (payment.paymentType) {
                 throw new Conflict("이미 결제 완료된 수납 건 입니다.");

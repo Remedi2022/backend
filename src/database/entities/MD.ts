@@ -32,4 +32,24 @@ export class MD extends BaseEntity {
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;
+
+    public static createMD = (
+        itme_name: string,
+        volume: number,
+        unit: string,
+        price: number,
+        company: string,
+        kcd: string,
+    ): MD => {
+        const md: MD = new MD();
+
+        md.itemName = itme_name;
+        md.volume = volume;
+        md.unit = unit;
+        md.price = price;
+        md.company = company;
+        md.kcd = kcd;
+
+        return md;
+    };
 }
