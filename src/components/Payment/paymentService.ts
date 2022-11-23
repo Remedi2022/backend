@@ -93,21 +93,21 @@ export class PaymentService implements IPaymentService {
                 convertString(chartmm) +
                 convertString(chartSS);
 
-            const MSH = `MSH|^~.&|||||${createdTime}||EHC^E01^EHC_E01|123|P|2.6||||||||||||||`;
-            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}&KRW||${doctor.hospitalName}^^^^^^^^^${doctor.businessRegistrationNumber}|SJlife||||||||^${doctorName}||||||AMB||||||`;
-            const PSS = `PSS|1||1|${pssTotalBill}&KRW|보험사제출서류|`;
+            const MSH = `MSH|^~.&|||||${createdTime}||EHC^E01^EHC_E01|123|P|2.6||||||||||||||\r`;
+            const IVC = `IVC|15|||OR|NORM|FN|${createdTime}|${ivcTotalBill}&KRW||${doctor.hospitalName}^^^^^^^^^${doctor.businessRegistrationNumber}|SJlife||||||||^${doctorName}||||||AMB||||||\r`;
+            const PSS = `PSS|1||1|${pssTotalBill}&KRW|보험사제출서류|\r`;
 
-            const PSGExamination = `PSG|1||1|Y|${consultaionFee}&KRW|진찰료|`;
-            const PID = `PID|||${patient.id}^^^^PI~${rrnHypenLess}^^^^SS||${patientName}|`;
-            const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${payment.individualCopayment}&KRW|||||||||||||||||||`;
-            const IN2 = `IN2|||||||||||||||||||||||||||||MMD^^^AT&${payment.nhisCopayment}&KRW||||||||||||||||||||||||`;
+            const PSGExamination = `PSG|1||1|Y|${consultaionFee}&KRW|진찰료|\r`;
+            const PID = `PID|||${patient.id}^^^^PI~${rrnHypenLess}^^^^SS||${patientName}|\r`;
+            const IN1 = `IN1|1|NHI|NHIS||||||||||||||||||||||||||||||||||${payment.individualCopayment}&KRW|||||||||||||||||||\r`;
+            const IN2 = `IN2|||||||||||||||||||||||||||||MMD^^^AT&${payment.nhisCopayment}&KRW||||||||||||||||||||||||\r`;
             const PSLExamination = `PSL|1||1|||P|AA||${
                 chart.consultationFee === 0 ? "초진진찰료" : "재진진찰료"
             }|${chartCreatedTime}|||${consultaionFee}&KRW|1|${consultaionFee}&KRW|${Math.floor(
                 consultaionFee * 0.3,
-            )}&KRW|||||Y|||||||1||||||||||||||||||||1|`;
+            )}&KRW|||||Y|||||||1||||||||||||||||||||1|\r`;
 
-            const PSGMD = `PSG|2||2|Y|${psgMDTotalBill}&KRW|투약료|`;
+            const PSGMD = `PSG|2||2|Y|${psgMDTotalBill}&KRW|투약료|\r`;
             const PSLMD = pmdList.map((pmd, idx) => {
                 return `PSL|${pmd.md.id}||${idx + 1}|||P|${pmd.md.kcd}||${pmd.md.itemName}|${chartCreatedTime}|||${
                     pmd.md.price
@@ -115,7 +115,7 @@ export class PaymentService implements IPaymentService {
                     pmd.md.price * pmd.mdAmountPerUnit * pmd.mdCountPerDay * pmd.mdAdministrationDay
                 }&KRW|${
                     pmd.md.price * pmd.mdAmountPerUnit * pmd.mdCountPerDay * pmd.mdAdministrationDay
-                }&KRW|||||Y|||||||2||||||||||||||||||||${pmd.mdAdministrationDay}|`;
+                }&KRW|||||Y|||||||2||||||||||||||||||||${pmd.mdAdministrationDay}|\r`;
             });
 
             HL7 = HL7 + MSH + IVC + PSS + PSGExamination + PID + IN1 + IN2 + PSLExamination + PSGMD;
