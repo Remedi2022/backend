@@ -1,5 +1,5 @@
 export class RequestMDRegisterDto {
-    readonly itme_name: string;
+    readonly item_name: string;
     readonly volume: number;
     readonly unit: string;
     readonly price: number;
@@ -7,7 +7,7 @@ export class RequestMDRegisterDto {
     readonly kcd: string;
 
     constructor(body: any) {
-        this.itme_name = body.name;
+        this.item_name = body.name;
         this.volume = body.volume;
         this.unit = body.unit;
         this.price = body.price;

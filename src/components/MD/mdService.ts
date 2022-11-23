@@ -85,14 +85,9 @@ export class MDService implements IMDService {
 
     async register(dto: RequestMDRegisterDto): Promise<Mutation<void>> {
         try {
-            const md: MD = new MD();
+            const { item_name, volume, unit, price, company, kcd } = dto;
 
-            md.itemName = dto.itme_name;
-            md.volume = dto.volume;
-            md.unit = dto.unit;
-            md.price = dto.price;
-            md.company = dto.company;
-            md.kcd = dto.kcd;
+            const md: MD = MD.createMD(item_name, volume, unit, price, company, kcd);
 
             return this.mdRepository.save(md);
         } catch (err: any) {
