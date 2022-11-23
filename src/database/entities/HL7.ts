@@ -14,7 +14,7 @@ export class HL7 extends BaseEntity {
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;
 
-    public static createMD = (content: string): HL7 => {
+    public static createHL7 = (content: string): HL7 => {
         const hl7: HL7 = new HL7();
 
         hl7.content = content;
