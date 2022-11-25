@@ -58,4 +58,6 @@ export class Visit extends BaseEntity {
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;
+
+    // createVisit = () => {};
 }

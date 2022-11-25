@@ -32,13 +32,12 @@ const kafka = new Kafka({
 
 export const producer = kafka.producer();
 export const consumer = kafka.consumer({
-    groupId: "REMEDi-group",
+    groupId: "REMEDI-group",
 });
 
 const initPubKafka = async () => {
     console.log("start publish kafka");
-    const result = await producer.connect();
-    console.log(result);
+    await producer.connect().then(result => console.log(result));
 };
 
 const initSubKafka = async () => {
@@ -68,6 +67,7 @@ class App {
         this.setStatic();
         this.getRouter();
         this.errorHandler();
+        this.kafka();
     }
 
     setMiddleWare() {
@@ -128,9 +128,11 @@ class App {
             });
         });
     }
-}
 
-initPubKafka();
-initSubKafka();
+    kafka() {
+        initPubKafka();
+        initSubKafka();
+    }
+}
 
 export default new App().app;

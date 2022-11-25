@@ -2,7 +2,7 @@ import { Request } from "express";
 import bcrypt from "bcrypt";
 import { Service } from "typedi";
 
-import { BadRequest, Conflict } from "@errors/errorGenerator";
+import { Conflict } from "@errors/errorGenerator";
 import { RequestSignUpDto, ResponseSignUpDto } from "./dtos";
 import { AuthRepository, Doctor } from "./authRepository";
 import { IAuthService } from "./interface/IAuthService";

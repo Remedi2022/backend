@@ -1,10 +1,9 @@
-import { Payment } from "@entities/Payment";
-import { PrescribedMD } from "@entities/PrescribedMD";
 import { BadRequest } from "@errors/errorGenerator";
 import { AuthRepository, Doctor } from "components/Auth/authRepository";
 import { MD, MDRepository } from "components/MD/mdRepository";
 import { Patient, PatientRepository } from "components/Patient/patientRepository";
-import { PaymentRepository } from "components/Payment/paymentRepository";
+import { Payment, PaymentRepository } from "components/Payment/paymentRepository";
+import { PrescribedMD } from "components/PrescribedMD/prescribedMDRepository";
 import { Visit, VisitRepository } from "components/Visit/visitRepository";
 import { CREATED, FORBIDDEN, OK } from "http-status-codes";
 import { Service } from "typedi";

@@ -1,13 +1,11 @@
-import { Doctor } from "@entities/Doctor";
-import { HL7 } from "@entities/HL7";
-import { Patient } from "@entities/Patient";
-import { Visit } from "@entities/Visit";
 import { Conflict } from "@errors/errorGenerator";
 import { producer } from "app";
+import { Doctor } from "components/Auth/authRepository";
 import { Chart, ChartRepository } from "components/Chart/chartRepository";
-import { HL7Repository } from "components/HL7/hl7Repository";
+import { HL7, HL7Repository } from "components/HL7/hl7Repository";
+import { Patient } from "components/Patient/patientRepository";
 import { PrescribedMD, PrescribedMDRepository } from "components/PrescribedMD/prescribedMDRepository";
-import { VisitRepository } from "components/Visit/visitRepository";
+import { Visit, VisitRepository } from "components/Visit/visitRepository";
 import { Service } from "typedi";
 import { RequestPaymentRegisterDto, ResponsePaymentPriceDto } from "./dtos";
 import { IPaymentService } from "./interface/IPaymentService";
