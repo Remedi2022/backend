@@ -66,12 +66,6 @@ export class ChartService implements IChartService {
                 consultation_fee,
             );
 
-            const chartSaveResult = await this.chartRepository.save(chart).then(result => {
-                return result.result;
-            });
-
-            if (!chartSaveResult) throw Error("진료 정보 생성에 실패했습니다.");
-
             for (const pmd of prescribed_md) {
                 const { md_id, md_amount_per_unit, md_count_per_day, md_administration_day } = pmd;
 

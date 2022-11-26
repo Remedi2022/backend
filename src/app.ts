@@ -10,7 +10,6 @@ import FileStore from "session-file-store";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 
-import { Kafka } from "kafkajs";
 import { COOKIE_SECRET, PORT } from "./config/env";
 import passportConfig from "./config/passport";
 import ApiRouter from "./routes/index";
@@ -25,39 +24,6 @@ const swaggerSpec = YAML.load(path.join(__dirname, "./config/swagger/openapi.yam
 const sessionStore = FileStore(session);
 const store = new sessionStore(SESS_OPTION);
 
-const kafka = new Kafka({
-    clientId: "REMEDI",
-    brokers: ["localhost:9092"],
-});
-
-export const producer = kafka.producer();
-export const consumer = kafka.consumer({
-    groupId: "REMEDI-group",
-});
-
-const initPubKafka = async () => {
-    console.log("start publish kafka");
-    await producer.connect().then(result => console.log(result));
-};
-
-const initSubKafka = async () => {
-    console.log("start subscribe");
-    await consumer.connect();
-    await consumer.subscribe({
-        topic: "REMEDI-kafka",
-        fromBeginning: true,
-    });
-    await consumer.run({
-        eachMessage: async ({ topic, partition, message }) => {
-            if (message.value) {
-                console.log({
-                    value: message.value.toString(),
-                });
-            }
-        },
-    });
-};
-
 class App {
     public app: Application;
 
@@ -67,7 +33,6 @@ class App {
         this.setStatic();
         this.getRouter();
         this.errorHandler();
-        this.kafka();
     }
 
     setMiddleWare() {
@@ -127,11 +92,6 @@ class App {
                 message: err.message,
             });
         });
-    }
-
-    kafka() {
-        initPubKafka();
-        initSubKafka();
     }
 }
 

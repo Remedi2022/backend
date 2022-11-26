@@ -1,5 +1,4 @@
 import { Conflict } from "@errors/errorGenerator";
-import { producer } from "app";
 import { Doctor } from "components/Auth/authRepository";
 import { Chart, ChartRepository } from "components/Chart/chartRepository";
 import { HL7, HL7Repository } from "components/HL7/hl7Repository";
@@ -10,6 +9,7 @@ import { Service } from "typedi";
 import { RequestPaymentRegisterDto, ResponsePaymentPriceDto } from "./dtos";
 import { IPaymentService } from "./interface/IPaymentService";
 import { Payment, PaymentRepository } from "./paymentRepository";
+import Kafka from "config/kafka";
 
 @Service()
 export class PaymentService implements IPaymentService {
@@ -137,7 +137,7 @@ export class PaymentService implements IPaymentService {
             this.visitRepository.save(visit);
             this.hl7Repository.save(hl7);
 
-            const result = producer.send({
+            const result = Kafka.producer.send({
                 topic: "REMEDI-kafka",
                 messages: [{ value: HL7_message }],
             });
