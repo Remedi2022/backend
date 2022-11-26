@@ -59,5 +59,40 @@ export class Visit extends BaseEntity {
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;
 
-    // createVisit = () => {};
+    public static createVisit = (
+        revisit: number,
+        benefit_type: string,
+        purpose: string,
+        purpose_detail: string,
+        temperature: number,
+        weight: number,
+        height: number,
+        blood_pressure_high: number,
+        blood_pressure_low: number,
+        blood_sugar: number,
+        patient: Patient,
+        doctor: Doctor,
+    ): Visit => {
+        const visit: Visit = new Visit();
+
+        visit.status = 1;
+        visit.revisit = revisit;
+        visit.benefitType = benefit_type;
+        visit.purpose = purpose;
+        visit.purposeDetail = purpose_detail;
+        visit.temperature = temperature;
+        visit.weight = weight;
+        visit.height = height;
+        visit.hBlood = blood_pressure_high;
+        visit.lBlood = blood_pressure_low;
+        visit.bloodSugar = blood_sugar;
+        visit.patient = patient;
+        visit.doctor = doctor;
+
+        return visit;
+    };
+
+    public setStatus = (status: number) => {
+        this.status = status;
+    };
 }

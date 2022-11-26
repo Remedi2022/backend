@@ -39,27 +39,25 @@ export class PatientService implements IPatientService {
         }
     }
 
-    async register(req: RequestPatientRegisterDto): Promise<Mutation<void>> {
+    async register(dto: RequestPatientRegisterDto): Promise<Mutation<void>> {
         try {
-            const exRRN = await this.patientRepository.findByRRN(req.rrn);
+            const { name, rrn, phone, first_responder, address } = dto;
+
+            let gender;
+
+            const exRRN = await this.patientRepository.findByRRN(rrn);
 
             if (exRRN) {
                 throw new Conflict("이미 같은 주민번호가 등록되어 있습니다");
             }
 
-            const patient = new Patient();
-
-            patient.name = req.name;
-            patient.rrn = req.rrn;
-            patient.phone = req.phone;
-            patient.firstResponder = req.first_responder;
-            patient.address = req.address;
-
-            if (parseInt(req.rrn.substr(7, 1)) % 2 == 1) {
-                patient.gender = "M";
+            if (parseInt(rrn.substr(7, 1)) % 2 == 1) {
+                gender = "M";
             } else {
-                patient.gender = "F";
+                gender = "F";
             }
+
+            const patient = Patient.createPatient(name, gender, rrn, phone, first_responder, address);
 
             return this.patientRepository.save(patient);
         } catch (err: any) {

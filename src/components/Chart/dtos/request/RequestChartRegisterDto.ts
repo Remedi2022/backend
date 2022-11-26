@@ -1,5 +1,3 @@
-import { PrescribedMD } from "@entities/PrescribedMD";
-
 export class RequestChartRegisterDto {
     readonly vid: number;
     readonly pid: number;

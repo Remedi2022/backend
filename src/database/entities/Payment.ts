@@ -37,4 +37,30 @@ export class Payment extends BaseEntity {
     chart: Chart;
 
     readonly date: BaseTimeEntity;
+
+    public static createPayment = (
+        individual_copayment: number,
+        uninsured_payment: number,
+        nhis_copayment: number,
+        visit: Visit,
+        chart: Chart,
+    ): Payment => {
+        const payment: Payment = new Payment();
+
+        payment.individualCopayment = individual_copayment;
+        payment.uninsuredPayment = uninsured_payment;
+        payment.nhisCopayment = nhis_copayment;
+        payment.visit = visit;
+        payment.chart = chart;
+
+        return payment;
+    };
+
+    public setPaidAmount = (paid_amount: number): void => {
+        this.paidAmount = paid_amount;
+    };
+
+    public setPaymentType = (payment_type: string): void => {
+        this.paymentType = payment_type;
+    };
 }

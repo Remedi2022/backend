@@ -13,8 +13,10 @@ export class AuthService implements IAuthService {
 
     async signup(dto: RequestSignUpDto): Promise<Mutation<ResponseSignUpDto>> {
         try {
-            const exEmail = await this.authRepository.findByemail(dto.email);
-            const exPassword = await this.authRepository.findBypwd(dto.password);
+            const { hospital_code, hospital_name, business_registration_number, license, email, password, name } = dto;
+
+            const exEmail = await this.authRepository.findByemail(email);
+            const exPassword = await this.authRepository.findBypwd(password);
 
             if (exEmail) {
                 throw new Conflict("중복된 아이디가 이미 존재합니다");
@@ -23,18 +25,19 @@ export class AuthService implements IAuthService {
                 throw new Conflict("중복된 비밀번호가 이미 존재합니다");
             }
 
-            const hash_hospital = await bcrypt.hash(dto.hospital_code, 10);
-            const hash_license = await bcrypt.hash(dto.license, 10);
-            const hash_pwd = await bcrypt.hash(dto.password, 10);
+            const hash_hospital_code = await bcrypt.hash(hospital_code, 10);
+            const hash_license = await bcrypt.hash(license, 10);
+            const hash_pwd = await bcrypt.hash(password, 10);
 
-            const doctor = new Doctor();
-            doctor.hospitalCode = hash_hospital;
-            doctor.hospitalName = dto.hospital_name;
-            doctor.businessRegistrationNumber = dto.business_registration_number;
-            doctor.license = hash_license;
-            doctor.email = dto.email;
-            doctor.password = hash_pwd;
-            doctor.name = dto.name;
+            const doctor: Doctor = Doctor.createDoctor(
+                hash_hospital_code,
+                hospital_name,
+                business_registration_number,
+                hash_license,
+                email,
+                hash_pwd,
+                name,
+            );
 
             return this.authRepository.save(doctor);
         } catch (err: any) {

@@ -51,4 +51,26 @@ export class Doctor extends BaseEntity {
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;
+
+    public static createDoctor = (
+        hospital_code: string,
+        hospital_name: string,
+        business_registration_number: string,
+        license: string,
+        email: string,
+        pwd: string,
+        name: string,
+    ): Doctor => {
+        const doctor: Doctor = new Doctor();
+
+        doctor.hospitalCode = hospital_code;
+        doctor.hospitalName = hospital_name;
+        doctor.businessRegistrationNumber = business_registration_number;
+        doctor.license = license;
+        doctor.email = email;
+        doctor.password = pwd;
+        doctor.name = name;
+
+        return doctor;
+    };
 }

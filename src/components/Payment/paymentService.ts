@@ -23,6 +23,8 @@ export class PaymentService implements IPaymentService {
 
     async register(dto: RequestPaymentRegisterDto): Promise<Mutation<void>> {
         try {
+            const { paid_amount, payment_type, vid } = dto;
+
             const visit: Visit = await this.visitRepository.findById(dto.vid);
             const payment: Payment = await this.paymentRepository.findByVid(dto.vid);
             const chart: Chart = await this.chartRepository.findByVid(dto.vid);
@@ -76,8 +78,6 @@ export class PaymentService implements IPaymentService {
 
             const rrnHypenLess = patient.rrn.split("-")[0] + patient.rrn.split("-")[1];
 
-            let HL7_message = "";
-
             const chartDT: Date = chart.date.createdAt;
             const chartYYYY: number = chartDT.getFullYear();
             const chartMM: number = chartDT.getMonth() + 1;
@@ -119,16 +119,18 @@ export class PaymentService implements IPaymentService {
                 }&KRW|||||Y|||||||2||||||||||||||||||||${pmd.mdAdministrationDay}|\r`;
             });
 
-            HL7_message = HL7_message + MSH + IVC + PSS + PSGExamination + PID + IN1 + IN2 + PSLExamination + PSGMD;
+            let HL7_message = MSH + IVC + PSS + PSGExamination + PID + IN1 + IN2 + PSLExamination + PSGMD;
+
             for (const psl of PSLMD) {
                 HL7_message += psl;
             }
 
             console.log(HL7_message);
-            visit.status = 4;
 
-            payment.paidAmount = dto.paid_amount;
-            payment.paymentType = dto.payment_type;
+            visit.setStatus(4);
+
+            payment.setPaidAmount(dto.paid_amount);
+            payment.setPaymentType(dto.payment_type);
 
             const hl7: HL7 = HL7.createHL7(HL7_message);
 
@@ -139,6 +141,7 @@ export class PaymentService implements IPaymentService {
                 topic: "REMEDI-kafka",
                 messages: [{ value: HL7_message }],
             });
+
             console.log("kafka send result : ", result);
 
             return this.paymentRepository.save(payment);

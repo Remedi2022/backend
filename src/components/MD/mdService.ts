@@ -38,6 +38,7 @@ export class MDService implements IMDService {
     async findById(id: number): Promise<Mutation<MD>> {
         try {
             const md = await this.mdRepository.findById(id);
+
             const result: MD = md;
 
             return {
@@ -59,6 +60,7 @@ export class MDService implements IMDService {
     async search(patient_name: string): Promise<Mutation<ResponseMDListDto[]>> {
         try {
             const mds = await this.mdRepository.findByName(patient_name);
+
             const result: ResponseMDListDto[] = [];
 
             for (const md of mds) {

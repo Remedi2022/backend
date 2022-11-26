@@ -52,4 +52,26 @@ export class Chart extends BaseEntity {
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;
+
+    public static createChart = (
+        visit: Visit,
+        patient: Patient,
+        doctor: Doctor,
+        examination: string,
+        diagnosis: string,
+        prescription: string,
+        consultation_fee: number,
+    ): Chart => {
+        const chart: Chart = new Chart();
+
+        chart.visit = visit;
+        chart.patient = patient;
+        chart.doctor = doctor;
+        chart.examination = examination;
+        chart.diagnosis = diagnosis;
+        chart.prescription = prescription;
+        chart.consultationFee = consultation_fee;
+
+        return chart;
+    };
 }

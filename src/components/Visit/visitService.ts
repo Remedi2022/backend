@@ -81,6 +81,19 @@ export class VisitService implements IVisitService {
 
     async register(dto: RequestVisitRegisterDto): Promise<Mutation<void>> {
         try {
+            const {
+                revisit,
+                benefit_type,
+                purpose,
+                purpose_detail,
+                temperature,
+                weight,
+                height,
+                blood_pressure_high,
+                blood_pressure_low,
+                blood_sugar,
+            } = dto;
+
             const patient = await this.patientRepository.findById(dto.pid);
             const doctor = await this.doctorRepository.findById(dto.did);
 
@@ -90,21 +103,20 @@ export class VisitService implements IVisitService {
                 throw new Conflict("해당 docter_id 와 맞는 의사 정보가 없습니다.");
             }
 
-            const visit: Visit = new Visit();
-
-            visit.patient = patient;
-            visit.doctor = doctor;
-            visit.status = 1;
-            visit.revisit = dto.revisit;
-            visit.benefitType = dto.benefit_type;
-            visit.purpose = dto.purpose;
-            visit.purposeDetail = dto.purpose_detail;
-            visit.temperature = dto.temperature;
-            visit.weight = dto.weight;
-            visit.height = dto.height;
-            visit.hBlood = dto.blood_pressure_high;
-            visit.lBlood = dto.blood_pressure_low;
-            visit.bloodSugar = dto.blood_sugar;
+            const visit: Visit = Visit.createVisit(
+                revisit,
+                benefit_type,
+                purpose,
+                purpose_detail,
+                temperature,
+                weight,
+                height,
+                blood_pressure_high,
+                blood_pressure_low,
+                blood_sugar,
+                patient,
+                doctor,
+            );
 
             return this.visitRepository.save(visit);
         } catch (err: any) {
@@ -121,7 +133,7 @@ export class VisitService implements IVisitService {
         try {
             const visit = await this.visitRepository.findById(vid);
 
-            visit.status = 2;
+            visit.setStatus(2);
 
             return await this.visitRepository.save(visit);
         } catch (err: any) {
@@ -139,7 +151,7 @@ export class VisitService implements IVisitService {
             const visits = await this.visitRepository.findAll();
 
             for (const visit of visits) {
-                visit.status = 5;
+                visit.setStatus(5);
 
                 await this.visitRepository.save(visit);
             }

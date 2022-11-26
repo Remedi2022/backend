@@ -25,4 +25,23 @@ export class PrescribedMD extends BaseEntity {
 
     @Column((type: any) => BaseTimeEntity)
     readonly date: BaseTimeEntity;
+
+    // 생성자 메서드
+    public static createPMD = (
+        md_amount_per_unit: number,
+        md_count_per_day: number,
+        md_administration_day: number,
+        md: MD,
+        chart: Chart,
+    ): PrescribedMD => {
+        const pmd: PrescribedMD = new PrescribedMD();
+
+        pmd.mdAmountPerUnit = md_amount_per_unit;
+        pmd.mdCountPerDay = md_count_per_day;
+        pmd.mdAdministrationDay = md_administration_day;
+        pmd.md = md;
+        pmd.chart = chart;
+
+        return pmd;
+    };
 }
