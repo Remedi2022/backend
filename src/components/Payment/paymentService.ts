@@ -25,9 +25,9 @@ export class PaymentService implements IPaymentService {
         try {
             const { paid_amount, payment_type, vid } = dto;
 
-            const visit: Visit = await this.visitRepository.findById(dto.vid);
-            const payment: Payment = await this.paymentRepository.findByVid(dto.vid);
-            const chart: Chart = await this.chartRepository.findByVid(dto.vid);
+            const visit: Visit = await this.visitRepository.findById(vid);
+            const payment: Payment = await this.paymentRepository.findByVid(vid);
+            const chart: Chart = await this.chartRepository.findByVid(vid);
             const pmdList: PrescribedMD[] = await this.prescribedMDRepository.findByChartId(chart.id);
             const doctor: Doctor = visit.doctor;
             const patient: Patient = visit.patient;
@@ -129,8 +129,8 @@ export class PaymentService implements IPaymentService {
 
             visit.setStatus(4);
 
-            payment.setPaidAmount(dto.paid_amount);
-            payment.setPaymentType(dto.payment_type);
+            payment.setPaidAmount(paid_amount);
+            payment.setPaymentType(payment_type);
 
             const hl7: HL7 = HL7.createHL7(HL7_message);
 
