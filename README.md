@@ -72,8 +72,4 @@
     
 - API 명세서
     
-    ![명세서.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4ad35380-a105-40d2-8e22-fcbed064fe85/%EB%AA%85%EC%84%B8%EC%84%9C.png)
-
-## API 명세서
-
-![API 명세서](./artifacts/docs_management/img/%EB%AA%85%EC%84%B8%EC%84%9C.png)
+    ![API 명세서](./artifacts/docs_management/img/%EB%AA%85%EC%84%B8%EC%84%9C.png)
