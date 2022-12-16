@@ -68,7 +68,7 @@
 
 - ERD
     
-    ![스크린샷 2022-12-16 오후 12.18.52.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9dabf8b9-c2c3-4fcb-a4c8-7d216f7a103f/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-12-16_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_12.18.52.png)
+    <img width="674" alt="KakaoTalk_20221216_164644399" src="https://user-images.githubusercontent.com/102170253/208052324-7122efa7-062b-4efc-b252-4a6daa5af986.png">
     
 - API 명세서
     
